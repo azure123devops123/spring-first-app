@@ -52,40 +52,40 @@ pipeline {
         stage ('Checkout') {
             steps {
                 sh 'mvn --version'
-                sh 'docker version'
+                sh 'docker --version'
             }
         }
 
-        stage ('Compile') {
-            steps {
-                sh "mvn clean compile"
-            }
-        }
+        // stage ('Compile') {
+        //     steps {
+        //         sh "mvn clean compile"
+        //     }
+        // }
 
-		stage ('Package') {
-			steps {
-                sh "mvn -f pom.xml clean package"           
-                }
-		}
+		// stage ('Package') {
+		// 	steps {
+        //         sh "mvn -f pom.xml clean package"           
+        //         }
+		// }
 
-        stage ('Build Docker Image') {
-            steps {
-                script {
-                    dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
-                }
-            }
-        }
+        // stage ('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
+        //         }
+        //     }
+        // }
 
-        stage ('Push Docker Image in Dockerhub') {
-            steps {
-                script {
-                    docker.withRegistry('','dockerhubID') {
-                        dockerImage.push();
-                        dockerImage.push('latest');
-                    }
-                }
-            }
-        }
+        // stage ('Push Docker Image in Dockerhub') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry('','dockerhubID') {
+        //                 dockerImage.push();
+        //                 dockerImage.push('latest');
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
 // AFTER SUCCESSFULL IMAGE PUSH TO DOCKERHUB:                 docker.io/devopstech24/jenkins-spring-first-app:jenkins-spring-first-app-pipeline-34
