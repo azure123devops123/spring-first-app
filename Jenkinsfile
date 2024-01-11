@@ -13,17 +13,22 @@ pipeline {
                 sh 'mvn --version'
             }
         }
+		stage ('Build'){
+			steps {
+				sh "./mvnw clean package"                   
+                }
+		}
         // stage ('Compile') {
         //     steps {
         //         sh "mvn clean compile"
         //     }
 
         // }
-        stage ('Package') {
-            steps {
-                sh "./mvnw clean package"
-            }
-        }
+        // stage ('Package') {
+        //     steps {
+        //         sh "./mvnw clean package"
+        //     }
+        // }
         // stage ('Build Docker Image') {
         //     steps {
         //         script {
