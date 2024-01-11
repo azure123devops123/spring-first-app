@@ -18,7 +18,7 @@ pipeline {
             steps {
                 sh "mvn clean compile"
             }
-
+        }
 		stage ('Build') {
 			steps {
 				sh "./mvnw clean package"
