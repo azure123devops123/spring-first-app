@@ -2,6 +2,11 @@ pipeline {
     agent {
         docker { image 'maven:3.9.5' }
     }
+    environment {
+        mavenHome = tool 'myMaven'
+        PATH = "$mavenHome/bin:$PATH"
+    }
+    
     stages {
         stage ('Checkout') {
             steps {
