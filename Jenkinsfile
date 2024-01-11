@@ -53,6 +53,7 @@ pipeline {
             steps {
                 sh 'mvn --version'
                 sh 'docker --version'
+                echo "Hello World"
             }
         }
 
