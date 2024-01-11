@@ -38,7 +38,7 @@ pipeline {
         //         }
         //     }
         // }
-    }
+    //}
 }
     // agent any
 	// environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
