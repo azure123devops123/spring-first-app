@@ -1,8 +1,12 @@
 pipeline {
-    agent any
+    
     // agent {
     //     docker { image 'maven:latest' }
     // }
+
+
+    
+    agent any
 	environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
 		dockerHome = tool 'myDocker'
 		mavenHome = tool 'myMaven'
@@ -13,6 +17,7 @@ pipeline {
         stage ('Checkout') {
             steps {
                 sh 'mvn --version'
+                sh 'docker version'
             }
         }
 
@@ -48,3 +53,6 @@ pipeline {
         }
     }
 }
+
+// AFTER SUCCESSFULL IMAGE PUSH TO DOCKERHUB:                 docker.io/devopstech24/jenkins-spring-first-app:jenkins-spring-first-app-pipeline-34
+// YOU CAN RUN AND TEST THE IMAGE:    docker run -p 8080:8080 docker.io/devopstech24/jenkins-spring-first-app:jenkins-spring-first-app-pipeline-34
