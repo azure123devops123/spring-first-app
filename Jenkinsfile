@@ -9,6 +9,11 @@ pipeline {
                 sh 'mvn --version'
             }
         }
+        stage ('Compile') {
+            steps {
+                sh "mvn clean compile"
+            }
+        }  
     }
 
     // agent any
