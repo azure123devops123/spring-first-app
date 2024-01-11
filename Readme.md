@@ -43,7 +43,7 @@ https://dev-springfirstapp.azurewebsites.net/hello
 # ---------------------------------------
 # mvn -N wrapper:wrapper                         ( Maven Wrapper plugin to make auto installation in a simple Spring Boot project )
 # you can see it will create a directory .mvn
-# cat .mvn/wrapper/maven-wrapper.properties      (you can see inside a specfic version of maven which it downloads like in our case here is apache-maven-3.9.5)
+# cat .mvn/wrapper/maven-wrapper.properties      (you can see inside a specific version of maven which it downloads like in our case here is apache-maven-3.9.5)
 # ./mvnw spring-boot:run                         ( When you will run it first time - it will download and install a specific version inside our project)
 
 # ./mvnw spring-boot:run        (note:- How to run this application from local system. (Notice it will not create a JAR file inside target directory)
