@@ -13,12 +13,12 @@ pipeline {
                 sh 'mvn --version'
             }
         }
-        stage ('Compile') {
-            steps {
-                sh "mvn -f pom.xml clean compile"
-            }
+        // stage ('Compile') {
+        //     steps {
+        //         sh "mvn clean compile"
+        //     }
 
-        }
+        // }
         stage ('Package') {
             steps {
                 sh "mvn -f pom.xml clean package"
