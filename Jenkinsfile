@@ -17,13 +17,11 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-
     	stage ('Package') {
 			steps {
                 sh "mvn -f pom.xml clean package"           
                 }
 		}
-
         stage ('Build Docker Image') {
             steps {
                 script {
@@ -31,7 +29,6 @@ pipeline {
                 }
             }
         }
-
         stage ('Push Docker Image in Dockerhub') {
             steps {
                 script {
@@ -43,7 +40,7 @@ pipeline {
             }
         }
     }
-    
+ 
     // agent any
 	// environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
 	// 	dockerHome = tool 'myDocker'
@@ -90,7 +87,7 @@ pipeline {
     //         }
     //     }
     // }
-// }
+}
 
 // AFTER SUCCESSFULL IMAGE PUSH TO DOCKERHUB:                 docker.io/devopstech24/jenkins-spring-first-app:jenkins-spring-first-app-pipeline-34
 // YOU CAN RUN AND TEST THE IMAGE:    docker run -p 8080:8080 docker.io/devopstech24/jenkins-spring-first-app:jenkins-spring-first-app-pipeline-34
