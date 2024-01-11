@@ -53,15 +53,14 @@ pipeline {
             steps {
                 sh 'mvn --version'
                 sh 'docker --version'
-                echo "Hello World"
             }
         }
 
-        // stage ('Compile') {
-        //     steps {
-        //         sh "mvn clean compile"
-        //     }
-        // }
+        stage ('Compile') {
+            steps {
+                sh "mvn clean compile"
+            }
+        }
 
 		// stage ('Package') {
 		// 	steps {
