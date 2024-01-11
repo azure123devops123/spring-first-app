@@ -3,11 +3,11 @@ pipeline {
     // agent {
     //     docker { image 'maven:latest' }
     // }
-	// environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
-	// 	dockerHome = tool 'myDocker'
-	// 	mavenHome = tool 'myMaven'
-	// 	PATH =  "$dockerHome/bin:$mavenHome/bin:$PATH"      // add both tools to our path
-	// }  
+	environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
+		dockerHome = tool 'myDocker'
+		mavenHome = tool 'myMaven'
+		PATH =  "$dockerHome/bin:$mavenHome/bin:$PATH"      // add both tools to our path
+	}  
 
     stages {
         stage ('Checkout') {
