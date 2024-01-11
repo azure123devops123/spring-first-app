@@ -35,5 +35,16 @@ pipeline {
                 }
             }
         }
+
+        stage ('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('','dockerhubID') {
+                        docker.push();
+                        docker.push('latest');
+                    }
+                }
+            }
+        }
     }
 }
