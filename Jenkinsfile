@@ -6,7 +6,6 @@ pipeline {
             args '--user root -v /var/run/docker.sock:/var/run/socker.sock'      // Mount Docker Socket to access the host's Docker Daemon 
             }
     }
-    
     stages {
         stage ('Checkout') {
             steps {
@@ -20,32 +19,32 @@ pipeline {
         }  
     }
 
-    stage ('Package') {
-		steps {
-            sh "mvn -f pom.xml clean package"           
-            }
-	}
+    	stage ('Package') {
+			steps {
+                sh "mvn -f pom.xml clean package"           
+                }
+		}
 
-    stage ('Build Docker Image') {
-        steps {
-            script {
-                dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
+        stage ('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
+                }
             }
         }
-    }
 
-    stage ('Push Docker Image in Dockerhub') {
-        steps {
-            script {
-                docker.withRegistry('','dockerhubID') {
-                    dockerImage.push();
-                    dockerImage.push('latest');
+        stage ('Push Docker Image in Dockerhub') {
+            steps {
+                script {
+                    docker.withRegistry('','dockerhubID') {
+                        dockerImage.push();
+                        dockerImage.push('latest');
+                    }
                 }
             }
         }
     }
-}
-
+    
     // agent any
 	// environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
 	// 	dockerHome = tool 'myDocker'
