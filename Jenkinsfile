@@ -21,7 +21,7 @@ pipeline {
         // }
         stage ('Package') {
             steps {
-                sh "mvn -f pom.xml clean package"
+                sh "./mvnw clean package"
             }
         }
         // stage ('Build Docker Image') {
