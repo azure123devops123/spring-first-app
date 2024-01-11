@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage ('Checkout') {
             steps {
-                sh 'mvn --version'
+                // sh 'mvn --version'
                 sh 'java --version'
             }
         }
@@ -21,7 +21,7 @@ pipeline {
         //         sh "mvn -X -e clean compile"
         //     }
         // }
-        
+
 		// stage ('Build') {
 		// 	steps {
 		// 		sh "./mvnw clean package"
