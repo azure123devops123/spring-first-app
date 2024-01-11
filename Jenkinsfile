@@ -1,14 +1,15 @@
 pipeline {
     agent {
         docker { 
-            image 'maven:3.9.6'
+            image 'node:latest' // 'maven:3.9.6'
             args '--user root -v /var/run/docker.sock:/var/run/socker.sock'      // Mount Docker Socket to access the host's Docker Daemon 
             }
     }
     stages {
         stage ('Checkout') {
             steps {
-                sh 'mvn --version'
+                // sh 'mvn --version'
+                sh 'node --version'
             }
         }
     }
