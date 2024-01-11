@@ -8,12 +8,18 @@ pipeline {
                 sh 'mvn --version'
             }
         }
-        stage ('Build Docker Image') {
+        stage ('Compile'){
             steps {
-                script {
-                    dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
-                }
+                sh "mvn clean compile"
             }
+
         }
+        // stage ('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
+        //         }
+        //     }
+        // }
     }
 }
