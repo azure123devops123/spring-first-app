@@ -1,0 +1,88 @@
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+########################################################
+# Build the Java Project using Maven with a Multi Stage.
+########################################################
+- stage: MavenBuildStage
+  displayName: 'Build with Maven'
+  jobs:
+  - job: MavenBuildJob
+    steps:
+
+    # Checking Installed Versions of Java and Maven
+    - bash: java --version
+    - bash: mvn -v
+
+    # Maven Build Task
+    - task: Maven@4
+      inputs:
+        mavenPomFile: 'pom.xml'
+        goals: 'clean package'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
+    
+    # Copy jar file from source to Artifact Directory
+    - task: CopyFiles@2
+      inputs:
+        # SourceFolder: '$(Build.SourcesDirectory)'
+        SourceFolder: '$(system.defaultworkingdirectory)'
+        Contents: '**/*.jar'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    # Publish the Build Artifact so other stages can use it.
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+#################################################
+# Dev Deply the Java Project using Azure Web App.
+#################################################
+- stage: DevDeployment
+  dependsOn: MavenBuildStage
+  condition: succeeded()
+  jobs:
+  # DevDeploy Stage
+  - deployment: DeploydevArtifact
+    environment: DevEnvironment
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo DevDeployment Execution
+            displayName: 'DevDeployment job script'
+          - task: DownloadPipelineArtifact@2 # Download Pipeline Artifact
+            inputs:
+              buildType: 'current'
+              artifactName: 'drop'
+              targetPath: '$(System.ArtifactsDirectory)'  
+
+          # - task: AzureWebApp@1
+          #   inputs:
+          #     azureSubscription: 'azure-resource-manager-service-connection'
+          #     appType: 'webAppLinux'
+          #     appName: 'dev-springfirstapp'
+          #     package: '$(System.ArtifactsDirectory)/**/*.jar'
+          #     runtimeStack: 'JAVA|8-jre8'
+
+          #     ABOVE OR BELOW TASKS ARE SAME
+
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'azure-resource-manager-service-connection'
+              appType: 'webAppLinux'
+              WebAppName: 'dev-springfirstapp'
+              packageForLinux: '$(System.ArtifactsDirectory)/**/*.jar'
+              RuntimeStack: 'JAVA|8-jre8'

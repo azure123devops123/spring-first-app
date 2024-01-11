@@ -1,0 +1,32 @@
+###################
+# Build Stage - 1 #
+###################
+# Use the official openjkd image as the base image
+FROM openjdk:latest as build
+
+# Set the working directory inside the container
+WORKDIR /app/source
+
+# Copy the application files to the working directory.
+COPY . /app/source
+
+# Build the project using Maven tool.
+RUN ./mvnw clean package
+
+###################
+# Build Stage - 2 #
+###################
+# Use the official minimal Linux, OpenJDK-based runtime DISTROLESS image as the base image only java runtime environment
+FROM gcr.io/distroless/java17-debian12 as runtime
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the JAR file of the build artifact from previous stage into the container's working directory
+COPY --from=build /app/source/target/*.jar /app/app.jar
+
+# Expose the port on which your application listens
+EXPOSE 8080
+
+# Run the run a Java application using JAR file.
+ENTRYPOINT [ "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar" ]
