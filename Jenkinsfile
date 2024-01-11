@@ -23,7 +23,7 @@ pipeline {
                 }
 		}
         stage ('Build Docker Image') {
-            steps {
+            environment {
                 script {
                     dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
                 }
