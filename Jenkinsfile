@@ -15,7 +15,7 @@ pipeline {
         }
         stage ('Compile') {
             steps {
-                sh "mvn compile"
+                sh "mvn -f pom.xml clean compile"
             }
 
         }
