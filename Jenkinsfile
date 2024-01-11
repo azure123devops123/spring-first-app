@@ -6,7 +6,7 @@ pipeline {
         mavenHome = tool 'myMaven'
         PATH = "$mavenHome/bin:$PATH"
     }
-    
+
     stages {
         stage ('Checkout') {
             steps {
@@ -15,9 +15,14 @@ pipeline {
         }
         stage ('Compile') {
             steps {
-                sh "mvn clean compile"
+                sh "mvn compile"
             }
 
+        }
+        stage ('Package') {
+            steps {
+                sh "mvn -f pom.xml clean package"
+            }
         }
         // stage ('Build Docker Image') {
         //     steps {
