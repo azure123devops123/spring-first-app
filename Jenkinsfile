@@ -1,7 +1,8 @@
 pipeline {
-    agent {
-        docker { image 'openjdk:23-jdk-slim-bullseye' }
-    }
+    agent any
+    // agent {
+    //     docker { image 'maven:latest' }
+    // }
 	// environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
 	// 	dockerHome = tool 'myDocker'
 	// 	mavenHome = tool 'myMaven'
@@ -11,8 +12,8 @@ pipeline {
     stages {
         stage ('Checkout') {
             steps {
-                // sh 'mvn --version'
-                sh 'java --version'
+                sh 'mvn --version'
+                // sh 'java --version'
             }
         }
 
