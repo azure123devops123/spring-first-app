@@ -17,11 +17,11 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-    	stage ('Package') {
-			steps {
-                sh "mvn -f pom.xml clean package"           
-                }
-		}
+    	// stage ('Package') {
+		// 	steps {
+        //         sh "mvn -f pom.xml clean package"           
+        //         }
+		// }
         // stage ('Build Docker Image') {
         //     environment {
         //         script {
