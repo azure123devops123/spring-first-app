@@ -5,12 +5,13 @@ pipeline {
             args '--user root -v /var/run/docker.sock:/var/run/socker.sock'      // Mount Docker Socket to access the host's Docker Daemon 
             }
     }
-    // stages {
-    //     stage ('Checkout') {
-    //         steps {
-    //             sh 'mvn --version'
-    //         }
-    //     }
+    stages {
+        stage ('Checkout') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
+    }
     //     stage ('Compile') {
     //         steps {
     //             sh "mvn clean compile"
