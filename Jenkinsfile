@@ -13,7 +13,6 @@ pipeline {
         stage ('Checkout') {
             steps {
                 sh 'mvn --version'
-                // sh 'java --version'
             }
         }
 
@@ -23,24 +22,18 @@ pipeline {
             }
         }
 
-		stage ('Build') {
+		stage ('Package') {
 			steps {
                 sh "mvn -f pom.xml clean package"           
                 }
 		}
 
-        // }
-        // stage ('Package') {
-        //     steps {
-        //         sh "./mvnw clean package"
-        //     }
-        // }
-        // stage ('Build Docker Image') {
-        //     steps {
-        //         script {
-        //             dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
-        //         }
-        //     }
-        // }
+        stage ('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
+                }
+            }
+        }
     }
 }
