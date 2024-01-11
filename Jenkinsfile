@@ -17,11 +17,11 @@ pipeline {
             }
         }
 
-        // stage ('Compile') {
-        //     steps {
-        //         sh "mvn -X -e clean compile"
-        //     }
-        // }
+        stage ('Compile') {
+            steps {
+                sh "mvn -X -e clean compile"
+            }
+        }
 
 		// stage ('Build') {
 		// 	steps {
