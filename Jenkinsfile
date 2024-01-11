@@ -1,27 +1,26 @@
 pipeline {
-    
     agent {
         docker { 
-            image 'maven:3.9.5'
+            image 'maven:3.9.6'
             args '--user root -v /var/run/docker.sock:/var/run/socker.sock'      // Mount Docker Socket to access the host's Docker Daemon 
             }
     }
-    stages {
-        stage ('Checkout') {
-            steps {
-                sh 'mvn --version'
-            }
-        }
-        stage ('Compile') {
-            steps {
-                sh "mvn clean compile"
-            }
-        }
-    	stage ('Package') {
-			steps {
-                sh "mvn -f pom.xml clean package"           
-                }
-		}
+    // stages {
+    //     stage ('Checkout') {
+    //         steps {
+    //             sh 'mvn --version'
+    //         }
+    //     }
+    //     stage ('Compile') {
+    //         steps {
+    //             sh "mvn clean compile"
+    //         }
+    //     }
+    // 	stage ('Package') {
+	// 		steps {
+    //             sh "mvn -f pom.xml clean package"           
+    //             }
+	// 	}
         // stage ('Build Docker Image') {
         //     environment {
         //         script {
