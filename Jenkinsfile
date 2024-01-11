@@ -15,7 +15,8 @@ pipeline {
         }
 		stage ('Build') {
 			steps {
-				sh "./mvnw clean package"                 
+				//sh "./mvnw clean package"
+                sh "mvn -f pom.xml clean package"           
                 }
 		}
         // stage ('Compile') {
