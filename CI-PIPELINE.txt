@@ -31,7 +31,25 @@ ps -ef | grep jenkins           // list Jenkins running processes on the system
 USERNAME: admin
 PASSWORD: pass
 
-CREATE A PIPELINE: Ultimate-Continuous-Integration-Demonstration-Pipeline
+CREATE A PIPELINE AND TEST IT WITHOUT WEBHOOK FIRST AND THEN WITH THE WEBHOOK - it must work : Ultimate-Continuous-Integration-Demonstration-Pipeline
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Build Triggers: (Used Both because sometime webhooks does not work so we configure both options)
+
+1) GitHub hook trigger for GITScm polling:
+spring-first-app (REPO) => settings => Webhooks => Add Webhook => 
+          Payload URL:   http://13.238.155.190:8080/github-webhook/
+          Content type:  application/json
+
+2) Poll SCM:
+H * * * *
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Install Plugins:
+1) Docker Pipeline
+
+
+
+
+
 
