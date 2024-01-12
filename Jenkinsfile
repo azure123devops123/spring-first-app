@@ -6,11 +6,6 @@ pipeline {
             args '--user root -v /var/run/docker.sock:/var/run/docker.sock'     // Mount Docker Socket to access the host's Docker Daemon
             }
     }
-    environment {
-		dockerHome = tool 'myDocker'
-		PATH =  "$dockerHome/bin:$PATH"
-	}  
-
     stages {
         stage ('Checkout') {
             steps {
