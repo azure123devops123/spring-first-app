@@ -118,6 +118,22 @@ Manage Jenkins  => Credentials => Global => Add credentials =>
 
 ---------------------------------------
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Docker Installation Using Script %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Docker Installation Using Script %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 // Here we have script for docker installation:   https://get.docker.com/
+
+curl https://get.docker.com/ | sh       // Install Docker using script
+docker ps                               // permission denied
+sudo chown $USER /var/run/docker.sock   // Current User Permission 
+docker ps                               // Now docker is WORKING
+
+// Grant Jenkins user and Ubuntu user permission to docker daemon:
+
+sudo su -
+usermod -aG docker jenkins
+usermod -aG docker ubuntu
+
+systemctl restart docker    // Finally restart docker
+systemctl restart jenkins   // Finally restart jenkins as well because we have done some many things.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
