@@ -3,7 +3,9 @@ pipeline {
     agent {
         docker { 
             image 'maven:3.9.5'  
-            args '--user root -v /var/run/docker.sock:/var/run/docker.sock'     // Mount Docker Socket to access the host's Docker Daemon
+            //args '--user root -v /var/run/docker.sock:/var/run/docker.sock'     // Mount Docker Socket to access the host's Docker Daemon
+            args  '-v /tmp:/tmp'
+            registryCredentialsId 'dockerhubID'
             }
     }
     stages {
@@ -24,10 +26,6 @@ pipeline {
 		}
 
         stage ('Build Docker Image') {
-            environment {
-                dockerHome = tool 'myDocker'
-                PATH =  "$dockerHome/bin:$PATH"
-            }
             steps {
                 script {
                     dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
@@ -38,7 +36,7 @@ pipeline {
         stage ('Push Docker Image in Dockerhub') {
             steps {
                 script {
-                    docker.withRegistry('','dockerhubID') {
+                    docker.withRegistry('','registryCredentialsId') {
                         dockerImage.push();
                     }
                 }
