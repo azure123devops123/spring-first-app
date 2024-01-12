@@ -1,6 +1,11 @@
 # t2-large - ubuntu Instance
 sudo apt update
 
+# CHANGE THE HOSTNAME OF THE SERVER WITH FOLLOWING THREE COMMANDS:
+ubuntu@ip-10-10-49-198:~$ sudo hostnamectl set-hostname JENKINS-SONARQUBE-SERVER
+ubuntu@ip-10-10-49-198:~$ /bin/bash
+ubuntu@JENKINS-SONARQUBE-SERVER:~$
+
 %%%%%%%%%%%%%%%%%%%%%%%%%% JENKINS INSTALLATION %%%%%%%%%%%%%%%%%%%%%%%%%%
 # Install JRE
 sudo apt install openjdk-11-jre     // JRE 11 is pre-requisite for Jenkins as Jenkins is a Java Application
@@ -43,13 +48,76 @@ spring-first-app (REPO) => settings => Webhooks => Add Webhook =>
 2) Poll SCM:
 H * * * *
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+NOTE:- AS WE WANT TO RUN DOCKER CONTAINERS RATHER THEN VIRTUAL MACHINES FOR INSTALL FOLLOWING PLUGINS:
 Install Plugins:
 1) Docker Pipeline
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SonarQube Installation (Static code analysis) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+sudo apt update
+
+sudo apt install openjdk-17-jre           // For Sonarqube we need JAVA 17  openjdk-17-jre
 
 
+// Choose the latest version and download from internet (IT WILL BE A COMMUNITY EDITION):
+https://binaries.sonarsource.com   => Distribution => sonarqube =>   choose the LATEST ZIP. (like sonarqube-9.9.3.79811.zip)
+
+wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.3.79811.zip
+ls      // we will have a zip file now (sonarqube-9.9.3.79811.zip)
+
+sudo apt install unzip          // install unzip
+
+unzip sonarqube-9.9.3.79811.zip
+ls // you will see a directory  (sonarqube-9.9.3.79811)
+
+cd sonarqube-9.9.3.79811/bin/linux-x86-64/              // GO INSIDE YOUR Distribution
+ls                  // you will see here the bash script file called 'sonar.sh' which we will execute and pass the parameter 
+
+./sonar.sh          // you can see the parameters 
+Usage: ./sonar.sh { console | start | stop | force-stop | restart | status | dump }
+
+Main Options:
+            console MEANS SHOW THE LOGS DURING INSTALLATION
+            start MEANS START SONARQUBE IN THE BACKGROUND 
+            stop MEANS STOP THE SONARQUBE
+
+CHOOSE FOLLOWING OPTION:
+./sonar.sh console              // you will see after some time 'SonarQube is operational'
+
+---------------------------------------
+NOW OPEN THE PORT 9000 ON EC2 INSTANCE:
+http://13.238.155.190:9000
+
+Default Username: admin
+Default Password: admin
+
+CHANGE:
+New Username: admin
+New Password: pass
+---------------------------------------
+
+NOW GO BACK TO JENKINS AND INSTALL PLUGINS:
+Install Plugins:
+2) SonarQube Scanner
 
 
+CREATE A TOKEN FOR JENKINS SERVER AUTHENTICATION:
 
+Click on A (Administrator) => My Account => Security => 
+
+sqa_aba7a776f64584a8c2fa6adab1f24aa9075d7f92
+
+Name	Type	Project	Last use	Created	Expiration	
+Jenkins	Global		Never	January 13, 2024	February 12, 2024
+
+NOW COPY THE TOKEN AND GO BACK TO JENKINS SERVER Create an ID so we can connect with the SONARQUBE from JENKINS.
+
+Manage Jenkins  => Credentials => Global => Add credentials => 
+    Kind: Secret Text
+    Secret: sqa_aba7a776f64584a8c2fa6adab1f24aa9075d7f92
+    ID: SonarqubeID  (It could be anything)
+
+---------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Docker Installation Using Script %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+// Here we have script for docker installation:   https://get.docker.com/
