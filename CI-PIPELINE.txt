@@ -1,0 +1,37 @@
+# t2-large - ubuntu Instance
+sudo apt update
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% JENKINS INSTALLATION %%%%%%%%%%%%%%%%%%%%%%%%%%
+# Install JRE
+sudo apt install openjdk-11-jre     // JRE 11 is pre-requisite for Jenkins as Jenkins is a Java Application
+java --version                      // Java is Installed    
+
+# Install Jenkins ( https://www.jenkins.io/  -> Documentation -> Installing Jenkins -> Linux -> Debian/Ubuntu -> Long Term Support release )
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins
+
+# Open Instance Port 8080 for Jenkins.
+
+# Configure Jenkins:
+http://13.238.155.190:8080/
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+82ce690bfc7d4d628b497a3940a21a0d                        // This is the OTP
+
+Note:- Install suggested plugins and finalize the installation process.
+
+systemctl status jenkins        // Check the jenkins application status ( Notice: running )
+ps -ef | grep jenkins           // list Jenkins running processes on the system
+
+USERNAME: admin
+PASSWORD: pass
+
+CREATE A PIPELINE: Ultimate-Continuous-Integration-Demonstration-Pipeline
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
