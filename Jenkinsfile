@@ -2,8 +2,8 @@ pipeline {
 
     agent {
         docker { 
-            image 'maven:3.9.5'
-            args '--user root -v /var/run/docker.sock:/var/run/socker.sock'      // Mount Docker Socket to access the host's Docker Daemon 
+            image 'maven:3.9.5'  
+            args '--user root -v /var/run/docker.sock:/var/run/docker.sock'     // Mount Docker Socket to access the host's Docker Daemon
             }
     }
     environment {
@@ -27,24 +27,39 @@ pipeline {
                 sh "mvn -f pom.xml clean package"           
                 }
 		}
-        stage ('Build Docker Image') {
-            steps {
-                script {
-                    dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
+        // stage ('Docker Image Build and Push') {
+        //     steps {
+        //         script {
+        //             dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
+        //         }
+        //     }
+        // }
+        // stage ('Push Docker Image in Dockerhub') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry('','dockerhubID') {
+        //                 dockerImage.push();
+        //                 dockerImage.push('latest');
+        //             }
+        //         }
+        //     }
+        // }
+///////
+        stage('Build and Push Docker Image') {
+        environment {
+            DOCKER_IMAGE = "devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}"
+            REGISTRY_CREDENTIALS = credentials('dockerhubID')
+        }
+        steps {
+            script {
+                sh 'docker build -t ${DOCKER_IMAGE} .'
+                def dockerImage = docker.image("${DOCKER_IMAGE}")
+                docker.withRegistry('', "dockerhubID") {
+                    dockerImage.push()
                 }
             }
         }
-        stage ('Push Docker Image in Dockerhub') {
-            steps {
-                script {
-                    docker.withRegistry('','dockerhubID') {
-                        dockerImage.push();
-                        dockerImage.push('latest');
-                    }
-                }
-            }
-        }
-
+/////////
     // agent any
 	// environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
 	// 	dockerHome = tool 'myDocker'
