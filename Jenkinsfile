@@ -22,39 +22,35 @@ pipeline {
                 sh "mvn -f pom.xml clean package"           
                 }
 		}
-        // stage ('Docker Image Build and Push') {
-        //     steps {
-        //         script {
-        //             dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
-        //         }
-        //     }
-        // }
-        // stage ('Push Docker Image in Dockerhub') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry('','dockerhubID') {
-        //                 dockerImage.push();
-        //                 dockerImage.push('latest');
-        //             }
-        //         }
-        //     }
-        // }
-///////
-        stage('Build and Push Docker Image') {
-        environment {
-            DOCKER_IMAGE = "devopstech24/jenkins-spring-first-app:${BUILD_TAG}"
-            REGISTRY_CREDENTIALS = credentials('dockerhubID')
-        }
-        steps {
-            script {
-                sh 'docker build -t ${DOCKER_IMAGE} .'
-                def dockerImage = docker.image("${DOCKER_IMAGE}")
-                docker.withRegistry('https://index.docker.io/v1/', "dockerhubID") {
-                    dockerImage.push()
+        stage ('Docker Image Build and Push') {
+            environment {
+                    dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
+                }
+            steps {
+                script {
+                    docker.withRegistry('','dockerhubID') {
+                        dockerImage.push();
+                        dockerImage.push('latest');
+                    }
                 }
             }
         }
-        }
+///////
+        // stage('Build and Push Docker Image') {
+        // environment {
+        //     DOCKER_IMAGE = "devopstech24/jenkins-spring-first-app:${BUILD_TAG}"
+        //     REGISTRY_CREDENTIALS = credentials('dockerhubID')
+        // }
+        // steps {
+        //     script {
+        //         sh 'docker build -t ${DOCKER_IMAGE} .'
+        //         def dockerImage = docker.image("${DOCKER_IMAGE}")
+        //         docker.withRegistry('https://index.docker.io/v1/', "dockerhubID") {
+        //             dockerImage.push()
+        //         }
+        //     }
+        // }
+        // }
 /////////
     // agent any
 	// environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
