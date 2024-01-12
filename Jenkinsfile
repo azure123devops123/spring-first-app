@@ -1,12 +1,14 @@
 pipeline {
+    agent none
 
+    stages {
+    // Stage Level Agent    
     agent {
         docker { 
             image 'maven:3.9.5'  
-            args '--user root -v /var/run/docker.sock:/var/run/docker.sock'     // Mount Docker Socket to access the host's Docker Daemon
+            //args '--user root -v /var/run/docker.sock:/var/run/docker.sock'     // Mount Docker Socket to access the host's Docker Daemon
             }
-    }
-    stages {
+        }
         stage ('Checkout') {
             steps {
                 sh 'mvn --version'
@@ -23,23 +25,23 @@ pipeline {
                 }
 		}
 
-        stage ('Build Docker Image') {
-            steps {
-                script {
-                    dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
-                }
-            }
-        }
+        // stage ('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
+        //         }
+        //     }
+        // }
 
-        stage ('Push Docker Image in Dockerhub') {
-            steps {
-                script {
-                    docker.withRegistry('','dockerhubID') {
-                        dockerImage.push();
-                    }
-                }
-            }
-        }
+        // stage ('Push Docker Image in Dockerhub') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry('','dockerhubID') {
+        //                 dockerImage.push();
+        //             }
+        //         }
+        //     }
+        // }
         // stage ('Docker Image Build and Push') {
         //     environment {
         //             dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
