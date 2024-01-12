@@ -42,14 +42,14 @@ pipeline {
 ///////
         stage('Build and Push Docker Image') {
         environment {
-            DOCKER_IMAGE = "devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}"
+            DOCKER_IMAGE = "devopstech24/jenkins-spring-first-app:${BUILD_TAG}"
             REGISTRY_CREDENTIALS = credentials('dockerhubID')
         }
         steps {
             script {
                 sh 'docker build -t ${DOCKER_IMAGE} .'
                 def dockerImage = docker.image("${DOCKER_IMAGE}")
-                docker.withRegistry('', "dockerhubID") {
+                docker.withRegistry('https://index.docker.io/v1/', "dockerhubID") {
                     dockerImage.push()
                 }
             }
