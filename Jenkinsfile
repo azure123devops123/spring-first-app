@@ -27,23 +27,23 @@ pipeline {
                 sh "mvn -f pom.xml clean package"           
                 }
 		}
-        // stage ('Build Docker Image') {
-        //     environment {
-        //         script {
-        //             dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
-        //         }
-        //     }
-        // }
-        // stage ('Push Docker Image in Dockerhub') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry('','dockerhubID') {
-        //                 dockerImage.push();
-        //                 dockerImage.push('latest');
-        //             }
-        //         }
-        //     }
-        // }
+        stage ('Build Docker Image') {
+            environment {
+                script {
+                    dockerImage = docker.build("devopstech24/jenkins-spring-first-app:${env.BUILD_TAG}")
+                }
+            }
+        }
+        stage ('Push Docker Image in Dockerhub') {
+            steps {
+                script {
+                    docker.withRegistry('','dockerhubID') {
+                        dockerImage.push();
+                        dockerImage.push('latest');
+                    }
+                }
+            }
+        }
 
     // agent any
 	// environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
