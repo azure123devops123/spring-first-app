@@ -72,7 +72,8 @@ pipeline {
     docker {
       image 'maven:latest'  //3.9.6
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
-    }
+  }
+    
   }
   stages {
     stage('Checkout') {
@@ -100,7 +101,8 @@ pipeline {
     stage ('Build Docker Image') {
 			steps {
 				script {
-          sh 'curl https://get.docker.com/ | sh'
+          // sh 'curl https://get.docker.com/ | sh'
+          sh 'curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-17.03.1-ce.tgz && tar --strip-components=1 -xvzf docker-17.03.1-ce.tgz -C /usr/local/bin'
 					dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
 				}
 			}
