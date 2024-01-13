@@ -64,6 +64,10 @@
 // Continuous Integration PIPELINE - MY WORKING CODE
 
 pipeline {
+  environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
+		dockerHome = tool 'myDocker'
+		PATH =  "$dockerHome/bin:$PATH"      // add both tools to our path
+	}  
   agent {
     docker {
       image 'maven:3.9.6'
@@ -93,6 +97,14 @@ pipeline {
         }
       }
     }
+    stage ('Build Docker Image'){
+			steps {
+				// "docker build -t devopstech24/jenkins-devops-microservice:$env.BUILD_TAG"      // Primitive (OLD) Way
+				script {
+					dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
+				}
+			}
+		}
     // stage('Build and Push Docker Image') {
     //   environment {
     //     DOCKER_IMAGE = "devopstech24/jenkins-spring-first-app:${BUILD_NUMBER}"
