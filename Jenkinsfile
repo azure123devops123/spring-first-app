@@ -124,7 +124,7 @@ pipeline {
         sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
         script {
 					docker.withRegistry('','DockerhubID') {
-              sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical'
+            sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical'
           }
         }
       }
