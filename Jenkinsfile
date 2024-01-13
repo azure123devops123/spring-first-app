@@ -128,6 +128,7 @@ pipeline {
           }
         }
       }
+    }  
     // // https://github.com/docker/scout-cli
     // stage ('Analyze Image to Find CVEs') {
     //   steps {
