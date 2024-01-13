@@ -79,13 +79,13 @@ pipeline {
     }
     stage('Build and Test') {
       steps {
-        // Build the project and create a JAR file
+        // Build the project and create a JAR file...
         sh 'mvn -f pom.xml clean package'
       }
     }
     stage('Static Code Analysis') {
       environment {
-        SONAR_URL = "http://3.104.79.100:9000"
+        SONAR_URL = "http://3.106.226.128:9000"
       }
       steps {
         withCredentials([string(credentialsId: 'SonarqubeID', variable: 'SONAR_AUTH_TOKEN')]) {
