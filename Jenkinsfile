@@ -120,11 +120,11 @@ pipeline {
     // https://github.com/docker/scout-cli
     stage ('Analyze Image to Find CVEs') {
       steps {
-        // Install Docker Scout inside Container
+        // Install Docker Scout inside Container.
         sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
         script {
-					docker.withRegistry('','DockerhubID') {   // Login into Dockerhub
-              sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical'    // Only Failure if the vulnerabilities are CRITICAL
+					docker.withRegistry('','DockerhubID') {
+              sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical'
           }
         }
       }
