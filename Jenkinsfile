@@ -102,8 +102,18 @@ pipeline {
 				// "docker build -t devopstech24/jenkins-devops-microservice:$env.BUILD_TAG"      // Primitive (OLD) Way
 				script {
           sh 'curl https://get.docker.com/ | sh'
-          //sh 'sudo chown $USER /var/run/docker.sock'
 					dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
+				}
+			}
+		}
+		stage ('Push Docker Image') {
+			steps {
+				script {         
+					// to push the image to docker hub we need to put the wrapper (docker.withRegistry) around below (dockerImage.push)
+					docker.withRegistry('','DockerhubID') {        // first parameter is empty because dockerhub is a default docker registry // second paramter is docker credentials ID that we just created
+					    dockerImage.push();
+					    dockerImage.push('latest');   // We can't push without Jenkins having Docker Hub Credentials (DockerID and Token (note:-Password will not work)
+					} // end of wrapper
 				}
 			}
 		}
