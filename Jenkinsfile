@@ -101,6 +101,8 @@ pipeline {
 			steps {
 				// "docker build -t devopstech24/jenkins-devops-microservice:$env.BUILD_TAG"      // Primitive (OLD) Way
 				script {
+          sh 'curl https://get.docker.com/ | sh'
+          sh 'sudo chown $USER /var/run/docker.sock'
 					dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
 				}
 			}
