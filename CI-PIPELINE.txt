@@ -23,7 +23,7 @@ sudo apt-get install jenkins
 # Open Instance Port 8080 for Jenkins.
 
 # Configure Jenkins:
-http://13.238.155.190:8080/
+http://52.64.145.91:8080/
 
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 82ce690bfc7d4d628b497a3940a21a0d                        // This is the OTP

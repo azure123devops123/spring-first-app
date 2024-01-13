@@ -89,7 +89,7 @@ pipeline {
     }
     stage('Static Code Analysis') {
       environment {
-        SONAR_URL = "http://3.106.226.128:9000"
+        SONAR_URL = "http://52.64.145.91:9000"
       }
       steps {
         withCredentials([string(credentialsId: 'SonarqubeID', variable: 'SONAR_AUTH_TOKEN')]) {
@@ -106,7 +106,7 @@ pipeline {
 				}
 			}
 		}
-		stage ('Push Docker Image') {
+		stage ('Push Docker Image to Docker Hub') {
 			steps {
 				script {         
 					// to push the image to docker hub we need to put the wrapper (docker.withRegistry) around below (dockerImage.push)
@@ -117,5 +117,17 @@ pipeline {
 				}
 			}
 		}
+    // https://github.com/docker/scout-cli
+    stage ('Analyze Image to Find CVEs') {
+      steps {
+        // Install Docker Scout
+        sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
+        // Log into Docker Hub
+        sh 'echo $DOCKER_HUB_PAT | docker login -u $DOCKER_HUB_USER --password-stdin'
+        // Analyze and fail on critical or high vulnerabilities
+        sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical,high'
+      }
+    }
+
   }
 }
