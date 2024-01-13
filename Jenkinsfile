@@ -29,7 +29,7 @@ pipeline {
     stage('Build and Test') {
       steps {
         // Build the project and create a JAR file
-        sh 'mvn clean package'
+        sh 'mvn -f pom.xml clean package'
       }
     }
     stage('Static Code Analysis') {
