@@ -97,10 +97,10 @@ pipeline {
         }
       }
     }
-    stage ('Build Docker Image'){
+    stage ('Build Docker Image') {
 			steps {
-        sh 'curl https://get.docker.com/ | sh'
 				script {
+          sh 'curl https://get.docker.com/ | sh'
 					dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
 				}
 			}
