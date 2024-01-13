@@ -111,7 +111,7 @@ Jenkins	Global		Never	January 13, 2024	February 12, 2024
 
 NOW COPY THE TOKEN AND GO BACK TO JENKINS SERVER Create an ID so we can connect with the SONARQUBE from JENKINS.
 
-Manage Jenkins  => Credentials => Global => Add credentials => 
+Manage Jenkins  =>  Credentials => Stores scoped to Jenkins (global)  =>  Add Credentials => 
     Kind: Secret Text
     Secret: sqa_aba7a776f64584a8c2fa6adab1f24aa9075d7f92
     ID: SonarqubeID  (It could be anything)
@@ -136,4 +136,30 @@ usermod -aG docker ubuntu
 systemctl restart docker    // Finally restart docker
 systemctl restart jenkins   // Finally restart jenkins as well because we have done some many things.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Important: Now Create Dockerhub and Github Credentials:
+
+Dockerhub Credentials:
+======================
+Manage Jenkins  =>  Credentials => Stores scoped to Jenkins (global)  =>  Add Credentials =>  
+    Kind: Username and Password
+    Username: devopstech24
+    Password: dckr_pat_dlGY_urWwMV02Ma7yV47JHIx-O0        // This must be Dockerhub Token // It will not work if you will give here password
+    ID: DockerhubID  (It could be anything)
+
+GENERATE GITHUB TOKEN:
+Settings  =>  Developer Settings  => Personal access tokens (classic) =>  New personal access token (classic)
+Note:          Jenkins
+Expiration:    7 Days
+Select scopes: TICK ALL
+Click on Generate Token
+
+Github Credentials:
+===================
+Manage Jenkins  =>  Credentials => Stores scoped to Jenkins (global)  =>  Add Credentials => 
+    Kind: Secret Text
+    Secret: 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  // This must be Github Token
+    ID: GithubID  (It could be anything)
+
+IMPORTANT: NOW WE HAVE Global credentials (unrestricted) FOR SonarqubeID, DockerhubID AND GithubID.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
