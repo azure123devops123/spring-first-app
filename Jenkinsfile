@@ -70,7 +70,7 @@ pipeline {
 	}  
   agent {
     docker {
-      image 'maven:3.9.6'
+      image 'maven:latest'  //3.9.6
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
