@@ -101,7 +101,7 @@ pipeline {
 			steps {
 				// "docker build -t devopstech24/jenkins-devops-microservice:$env.BUILD_TAG"      // Primitive (OLD) Way
 				script {
-          sh 'apt-get update && apt-get install -y apt-utils && apt-get install -y curl'
+          //sh 'apt-get update && apt-get install -y apt-utils && apt-get install -y curl'
           sh 'curl https://get.docker.com/ | sh'    // Install Docker using script inside Container
 					dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
 				}
