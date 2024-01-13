@@ -11,7 +11,7 @@
 // }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// // Continuous Integration PIPELINE - NOT WORKING CODE
+// // Continuous Integration PIPELINE - abhishek NOT WORKING CODE
 // pipeline {
 //   agent {
 //     docker {
@@ -101,7 +101,7 @@ pipeline {
 			steps {
 				// "docker build -t devopstech24/jenkins-devops-microservice:$env.BUILD_TAG"      // Primitive (OLD) Way
 				script {
-          sh 'curl https://get.docker.com/ | sh'
+          sh 'curl https://get.docker.com/ | sh'    // Install Docker using script inside Container
 					dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
 				}
 			}
@@ -117,20 +117,5 @@ pipeline {
 				}
 			}
 		}
-    // stage('Build and Push Docker Image') {
-    //   environment {
-    //     DOCKER_IMAGE = "devopstech24/jenkins-spring-first-app:${BUILD_NUMBER}"
-    //     REGISTRY_CREDENTIALS = credentials('DockerhubID')
-    //   }
-    //   steps {
-    //     script {
-    //         sh 'docker build -t ${DOCKER_IMAGE} .'
-    //         def dockerImage = docker.image("${DOCKER_IMAGE}")
-    //         docker.withRegistry('https://index.docker.io/v1/', "DockerhubID") {
-    //             dockerImage.push()
-    //         }
-    //     }
-    //   }
-    // }
   }
 }
