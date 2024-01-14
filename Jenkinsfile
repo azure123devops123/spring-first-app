@@ -70,7 +70,8 @@ pipeline {
 	}  
   agent {
     docker {
-      image 'maven:latest'  //3.9.6
+      //image 'maven:latest'  //3.9.6
+      image 'openjdk:23-jdk-slim-bullseye'
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
   }
     
