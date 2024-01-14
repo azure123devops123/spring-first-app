@@ -64,10 +64,10 @@
 // Continuous Integration PIPELINE - MY WORKING CODE
 
 pipeline {
-  environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
-		dockerHome = tool 'myDocker'
-		PATH =  "$dockerHome/bin:$PATH"      // add both tools to our path
-	}
+  // environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
+	// 	dockerHome = tool 'myDocker'
+	// 	PATH =  "$dockerHome/bin:$PATH"      // add both tools to our path
+	// }
   agent {
     docker {
       image 'maven:latest'  //3.9.6
@@ -118,7 +118,7 @@ pipeline {
 		}
     stage ('Analyze Image to Find CVEs') {
       steps {
-        // Install Docker Scout inside Container.
+        // Install Docker Scout inside Container
         sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
         script {
 					docker.withRegistry('','DockerhubID') {
