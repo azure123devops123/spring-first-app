@@ -104,7 +104,6 @@ pipeline {
           // YOU CAN FIND CURRENT BINAARY VERSION AND DOWNLOAD: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz 
           sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
           dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
-          sh 'docker --version'
 				}
 			}
 		}
