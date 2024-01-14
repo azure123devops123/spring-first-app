@@ -70,23 +70,20 @@ pipeline {
 	}
   agent {
     docker {
-      image 'openjdk:23-jdk-slim-bullseye'  // image 'maven:latest'  //3.9.6
+      image 'maven:latest'  //3.9.6
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
-  }
-    
+  }  
   }
   stages {
     stage('Checkout') {
       steps {
-        sh 'echo passed'
         git branch: 'main', url: 'https://github.com/azure123devops123/spring-first-app.git'
       }
     }
     stage('Build and Test') {
       steps {
-        // Build the project and create a JAR file......
-        //sh 'mvn -f pom.xml clean package'
-        sh './mvnw clean package'
+        // Build the project and create a JAR file
+        sh 'mvn -f pom.xml clean package'
       }
     }
     stage('Static Code Analysis') {
@@ -95,7 +92,7 @@ pipeline {
       }
       steps {
         withCredentials([string(credentialsId: 'SonarqubeID', variable: 'SONAR_AUTH_TOKEN')]) {
-          sh './mvnw sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+          sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
         }
       }
     }
