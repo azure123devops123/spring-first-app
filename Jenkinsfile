@@ -102,8 +102,10 @@ pipeline {
 			steps {
 				script {
           // sh 'curl https://get.docker.com/ | sh'
-          sh 'curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-17.03.1-ce.tgz && tar --strip-components=1 -xvzf docker-17.03.1-ce.tgz -C /usr/local/bin'
-					dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
+          // sh 'curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-17.03.1-ce.tgz && tar --strip-components=1 -xvzf docker-17.03.1-ce.tgz -C /usr/local/bin'
+          // BINAARY: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz 
+          sh 'curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'					
+          dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
 				}
 			}
 		}
@@ -124,7 +126,7 @@ pipeline {
         sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
         script {
 					docker.withRegistry('','DockerhubID') {
-            sh 'docker-scout cves ${env.BUILD_TAG} --exit-code --only-severity critical'    // $IMAGE_TAG
+            sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical'
           }
         }
       }
