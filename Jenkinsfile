@@ -67,11 +67,10 @@ pipeline {
   environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
 		dockerHome = tool 'myDocker'
 		PATH =  "$dockerHome/bin:$PATH"      // add both tools to our path
-	}  
+	}
   agent {
     docker {
-      //image 'maven:latest'  //3.9.6
-      image 'openjdk:23-jdk-slim-bullseye'
+      image 'openjdk:23-jdk-slim-bullseye'  // image 'maven:latest'  //3.9.6
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
   }
     
@@ -104,7 +103,6 @@ pipeline {
 				script {
           // YOU CAN FIND CURRENT BINAARY VERSION AND DOWNLOAD: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz 
           sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
-          sh 'docker --version'
           dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
 				}
 			}
