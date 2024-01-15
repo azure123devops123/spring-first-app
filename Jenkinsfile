@@ -61,7 +61,7 @@
 // }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Continuous Integration PIPELINE - MY WORKING CODE
+// Continuous Integration PIPELINE - MY WORKING CODE...
 
 pipeline {
   environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
