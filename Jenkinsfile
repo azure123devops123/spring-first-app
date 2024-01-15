@@ -75,9 +75,14 @@ pipeline {
   }  
   }
   stages {
+    stage('Cleanup Workspace'){
+      steps {
+        Cleanup()
+      }
+    }
     stage('Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/azure123devops123/spring-first-app.git'
+        git branch: 'main', credentialsId: 'GithubID' url: 'https://github.com/azure123devops123/spring-first-app.git'
       }
     }
     stage('Build and Test') {
@@ -127,5 +132,12 @@ pipeline {
         }
       }
     }
+    // stage('Cleanup Artifacts') {
+    //   steps {
+    //     script {
+    //       sh 'docker rmi devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}'
+    //     }
+    //   }
+    // }
   }
 }
