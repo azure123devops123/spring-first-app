@@ -74,12 +74,12 @@ pipeline {
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
   }  
   }
-  stages {
-    stage('Cleanup Workspace'){
-      steps {
-        cleanWs()
-      }
-    }
+  // stages {
+  //   stage('Cleanup Workspace'){
+  //     steps {
+  //       cleanWs()
+  //     }
+  //   }
     stage('Checkout') {
       steps {
         git branch: 'main', credentialsId: 'GithubID', url: 'https://github.com/azure123devops123/spring-first-app.git'
