@@ -140,12 +140,14 @@ pipeline {
         }
       }
     }
-    // stage('Cleanup Artifacts') {
-    //   steps {
-    //     script {
-    //       sh 'docker rmi devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}'
-    //     }
-    //   }
-    // }
+    stage('Cleanup Artifacts') {
+      steps {
+        script {
+          sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'
+          sh 'docker rmi ${IMAGE_NAME}:latest'
+          sh 'docker image prune'
+        }
+      }
+    }
   }
 }
