@@ -145,7 +145,7 @@ pipeline {
         script {
           sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'
           sh 'docker rmi ${IMAGE_NAME}:latest'
-          sh 'docker image prune'
+          sh 'docker image prune --force'
         }
       }
     }
