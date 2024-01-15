@@ -67,6 +67,14 @@ pipeline {
   environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
 		dockerHome = tool 'myDocker'
 		PATH =  "$dockerHome/bin:$PATH"      // add both tools to our path
+    
+    DOCKER_USER = "devopstech24"
+    APP_NAME = "jenkins-devops-microservice"
+    IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
+
+    RELEASE = "1.0.0"
+    IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+
 	}
   agent {
     docker {
@@ -106,7 +114,7 @@ pipeline {
 				script {
           // YOU CAN FIND CURRENT BINAARY VERSION AND DOWNLOAD: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz 
           sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
-          dockerImage = docker.build("devopstech24/jenkins-devops-microservice:${env.BUILD_TAG}")
+          dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")     // ${env.BUILD_TAG}
 				}
 			}
 		}
