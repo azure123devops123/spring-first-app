@@ -77,7 +77,7 @@ pipeline {
   stages {
     stage('Cleanup Workspace'){
       steps {
-        Cleanup()
+        cleanWs()
       }
     }
     stage('Checkout') {
