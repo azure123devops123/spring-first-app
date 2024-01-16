@@ -32,27 +32,16 @@ pipeline {
       }
     }
 
-    stage("SonarQube Code Analysis"){
+    stage('SonarQube Static Code Analysis') {
+      environment {
+        SONAR_URL = "http://52.64.145.91:9000"
+      }
       steps {
-	      script {
-		      withSonarQubeEnv(credentialsId: 'SonarqubeID') { 
-            sh "mvn sonar:sonar"
-		      }
-	      }	
+        withCredentials([string(credentialsId: 'SonarqubeID', variable: 'SONAR_AUTH_TOKEN')]) {
+          sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+        }
       }
     }
-
-
-    // stage('Static Code Analysis') {
-    //   environment {
-    //     SONAR_URL = "http://52.64.145.91:9000"
-    //   }
-    //   steps {
-    //     withCredentials([string(credentialsId: 'SonarqubeID', variable: 'SONAR_AUTH_TOKEN')]) {
-    //       sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
-    //     }
-    //   }
-    // }
 
 		stage ('Build & Push Docker Image to Docker Hub') {
 			steps {
