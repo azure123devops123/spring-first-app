@@ -48,7 +48,7 @@ pipeline {
 		stage ('Build & Push Docker Image to Docker Hub') {
 			steps {
 				script {
-          // Install Docker inside Container     
+          // Install Docker inside Container.     
           sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'   // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
              
 					docker.withRegistry('','DockerhubID') {
@@ -65,7 +65,7 @@ pipeline {
 
     stage ('Analyze Image - Docker Scout Image Scanner') {
       steps {
-        // Install Docker Scout inside Container
+        // Install Docker Scout inside Container.
         sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
         script {
 					docker.withRegistry('','DockerhubID') {
