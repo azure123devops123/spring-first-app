@@ -76,8 +76,8 @@ pipeline {
     stage('Cleanup Artifacts') {
       steps {
         script {
-          sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'  // Remove Current Tag Image
-          sh 'docker rmi ${IMAGE_NAME}:latest'  // Remove latest Tag Image
+          sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'  // Remove Current Tagged Image
+          sh 'docker rmi ${IMAGE_NAME}:latest'  // Remove latest Tagged Image
           sh 'docker image prune --force' // Remove dangling images without prompt for confirmation
         }
       }
