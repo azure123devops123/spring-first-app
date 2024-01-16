@@ -64,7 +64,6 @@
 // Continuous Integration PIPELINE - MY WORKING CODE...
 
 pipeline {
-
   environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
 		dockerHome = tool 'myDocker'
 		PATH =  "$dockerHome/bin:$PATH"      // add both tools to our path
@@ -74,22 +73,21 @@ pipeline {
     IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
 
     RELEASE = "1.0.0"
-    IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"          // BUILD_NUMBER is the environment variable
-	}
+    IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
 
+	}
   agent {
     docker {
       image 'maven:latest'  //3.9.6
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
-    }
+  }  
   }
-
   stages {
-    stage('Cleanup Workspace'){
-      steps {
-        cleanWs()
-      }
-    }
+    // stage('Cleanup Workspace'){
+    //   steps {
+    //     cleanWs()
+    //   }
+    // }
     stage('Checkout') {
       steps {
         git branch: 'main', credentialsId: 'GithubID', url: 'https://github.com/azure123devops123/spring-first-app.git'
@@ -111,23 +109,27 @@ pipeline {
         }
       }
     }
-		stage ('Build & Push Docker Image to Docker Hub') {
+    stage ('Build Docker Image') {
+			steps {
+				script {
+          // YOU CAN FIND CURRENT BINAARY VERSION AND DOWNLOAD: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz 
+          sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
+          dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")     // ${env.BUILD_TAG}
+				}
+			}
+		}
+		stage ('Push Docker Image to Docker Hub') {
 			steps {
 				script {         
+					// to push the image to docker hub we need to put the wrapper (docker.withRegistry) around below (dockerImage.push)
 					docker.withRegistry('','DockerhubID') {        // first parameter is empty because dockerhub is a default docker registry // second paramter is docker credentials ID that we just created
-              // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
-              sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
-              dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
-					} // end of wrapper
-
-          docker.withRegistry('','DockerhubID') {        // first parameter is empty because dockerhub is a default docker registry // second paramter is docker credentials ID that we just created
 					    dockerImage.push();
-					    dockerImage.push('latest')   // We can't push without Jenkins having Docker Hub Credentials (DockerID and Token (note:-Password will not work)
+					    dockerImage.push('latest');   // We can't push without Jenkins having Docker Hub Credentials (DockerID and Token (note:-Password will not work)
 					} // end of wrapper
 				}
 			}
 		}
-    stage ('Analyze Image to Find CVEs using Docker Scout Image Scanner') {
+    stage ('Analyze Image to Find CVEs') {
       steps {
         // Install Docker Scout inside Container
         sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
