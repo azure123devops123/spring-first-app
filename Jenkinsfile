@@ -68,8 +68,7 @@ pipeline {
   environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
 		// dockerHome = tool 'myDocker'
     // https://github.com/azure123devops123/spring-first-app
-    sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
-    PATH =  "/usr/local/bin:$PATH"
+
 		// PATH =  "$dockerHome/bin:$PATH"      // add both tools to our path
     
     DOCKER_USER = "devopstech24"
@@ -115,6 +114,8 @@ pipeline {
 					docker.withRegistry('','DockerhubID') {      // First parameter is empty because dockerhub is a default docker registry // second paramter is docker credentials ID that we just created
               // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
               // sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
+              sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
+              PATH =  "/usr/local/bin:$PATH"
               dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
 					} // end of wrapper
 
