@@ -49,6 +49,7 @@ pipeline {
 			steps {
 				script {   
           // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
+          // Install Docker inside Container
           sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'     
 					docker.withRegistry('','DockerhubID') {
               dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
@@ -62,7 +63,7 @@ pipeline {
 			}
 		}
 
-    stage ('Analyze Image to Find CVEs using Docker Scout Image Scanner') {
+    stage ('Analyze Image - Docker Scout Image Scanner') {
       steps {
         // Install Docker Scout inside Container
         sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
@@ -89,6 +90,6 @@ pipeline {
         cleanWs()
       }
     }
-    
+
   }
 }
