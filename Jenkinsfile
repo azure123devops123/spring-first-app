@@ -9,8 +9,13 @@ pipeline {
 
     RELEASE = "1.0.0"
     IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"          // BUILD_NUMBER is the environment variable
-    sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin' 
 	}
+  
+  tools {
+    // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
+    // Install Docker inside Container 
+    sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
+  }
 
   agent {
     docker {
@@ -48,10 +53,7 @@ pipeline {
 
 		stage ('Build & Push Docker Image to Docker Hub') {
 			steps {
-				script {   
-          // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
-          // Install Docker inside Container
-              
+				script {                 
 					docker.withRegistry('','DockerhubID') {
               dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
 					} // end of wrapper (withRegistry)
