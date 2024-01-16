@@ -4,10 +4,10 @@ pipeline {
 
   environment {
     DOCKER_USER = "devopstech24"
-    APP_NAME = "java-application-demo"
+    APP_NAME = "java-application-jenkins-ci-pipeline" // This repo will be created on dockrhub automatically.
     IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
 
-    RELEASE = "1.0.0"
+    RELEASE = "1.0.0" // Semantic versioning (Major.Minor.Patch)
     IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"          // BUILD_NUMBER is the environment variable
 	}
 
