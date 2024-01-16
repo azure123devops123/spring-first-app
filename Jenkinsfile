@@ -83,13 +83,7 @@ pipeline {
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
-
   stages {
-    stage('Cleanup Workspace'){
-      steps {
-        cleanWs()
-      }
-    }
     stage('Checkout') {
       steps {
         git branch: 'main', credentialsId: 'GithubID', url: 'https://github.com/azure123devops123/spring-first-app.git'
@@ -146,6 +140,11 @@ pipeline {
           sh 'docker rmi ${IMAGE_NAME}:latest'  // Remove latest Tag Image
           sh 'docker image prune --force' // Remove dangling images without prompt for confirmation
         }
+      }
+    }
+    stage('Cleanup Workspace'){
+      steps {
+        cleanWs()
       }
     }
   }
