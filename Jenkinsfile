@@ -45,15 +45,13 @@ pipeline {
 
 		stage ('Build & Push Docker Image to Docker Hub') {
 			steps {
+        // Install Docker inside Container
+        sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'   // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz 
 				script {
-          // Install Docker inside Container
-          sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'   // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
-          
           // Build and Tag Image
 					docker.withRegistry('','DockerhubID') {
               dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
 					}
-
           // Push Image to Dockerhub
           docker.withRegistry('','DockerhubID') {
 					    dockerImage.push();
