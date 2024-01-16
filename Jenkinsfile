@@ -32,16 +32,27 @@ pipeline {
       }
     }
 
-    stage('Static Code Analysis') {
-      environment {
-        SONAR_URL = "http://52.64.145.91:9000"
-      }
+    stage("SonarQube Code Analysis"){
       steps {
-        withCredentials([string(credentialsId: 'SonarqubeID', variable: 'SONAR_AUTH_TOKEN')]) {
-          sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
-        }
+	      script {
+		      withSonarQubeEnv(credentialsId: 'SonarqubeID') { 
+            sh "mvn sonar:sonar"
+		      }
+	      }	
       }
     }
+
+
+    // stage('Static Code Analysis') {
+    //   environment {
+    //     SONAR_URL = "http://52.64.145.91:9000"
+    //   }
+    //   steps {
+    //     withCredentials([string(credentialsId: 'SonarqubeID', variable: 'SONAR_AUTH_TOKEN')]) {
+    //       sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+    //     }
+    //   }
+    // }
 
 		stage ('Build & Push Docker Image to Docker Hub') {
 			steps {
@@ -140,18 +151,18 @@ pipeline {
 
 // 		stage ('Build & Push Docker Image to Docker Hub') {
 // 			steps {
+//         // Install Docker inside Container
+//         sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'   // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz 
 // 				script {
-//           // Install Docker inside Container
-//           sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'   // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
-             
+//           // Build and Tag Image
 // 					docker.withRegistry('','DockerhubID') {
 //               dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
-// 					} // end of wrapper (withRegistry)
-
+// 					}
+//           // Push Image to Dockerhub
 //           docker.withRegistry('','DockerhubID') {
 // 					    dockerImage.push();
 // 					    dockerImage.push('latest')   // We can't push without Jenkins having Docker Hub Credentials (DockerID and Token (note:-Password will not work).
-// 					} // end of wrapper (withRegistry)
+// 					}
 // 				}
 // 			}
 // 		}
