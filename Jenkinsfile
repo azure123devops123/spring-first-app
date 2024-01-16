@@ -114,13 +114,13 @@ pipeline {
 		stage ('Build & Push Docker Image to Docker Hub') {
 			steps {
 				script {         
-					docker.withRegistry('','DockerhubID') {      // first parameter is empty because dockerhub is a default docker registry // second paramter is docker credentials ID that we just created
+					docker.withRegistry('','DockerhubID') {      // First parameter is empty because dockerhub is a default docker registry // second paramter is docker credentials ID that we just created
               // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
               sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
               dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
 					} // end of wrapper
 
-          docker.withRegistry('','DockerhubID') {        // first parameter is empty because dockerhub is a default docker registry // second paramter is docker credentials ID that we just created
+          docker.withRegistry('','DockerhubID') {        // First parameter is empty because dockerhub is a default docker registry // second paramter is docker credentials ID that we just created
 					    dockerImage.push();
 					    dockerImage.push('latest')   // We can't push without Jenkins having Docker Hub Credentials (DockerID and Token (note:-Password will not work)
 					} // end of wrapper
