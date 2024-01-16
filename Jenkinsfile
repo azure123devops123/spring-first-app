@@ -119,7 +119,7 @@ pipeline {
 
           docker.withRegistry('','DockerhubID') {        // First parameter is empty because dockerhub is a default docker registry // second paramter is docker credentials ID that we just created
 					    dockerImage.push();
-					    dockerImage.push('latest')   // We can't push without Jenkins having Docker Hub Credentials (DockerID and Token (note:-Password will not work)
+					    dockerImage.push('latest')   // We can't push without Jenkins having Docker Hub Credentials (DockerID and Token (note:-Password will not work).
 					} // end of wrapper
 				}
 			}
