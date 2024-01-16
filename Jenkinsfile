@@ -28,9 +28,7 @@ pipeline {
 
     stage('Build and Test') {
       steps {
-        // Build the project and create a JAR file
-        // sh 'mvn -f pom.xml clean package'
-        sh 'mvn clean package'
+        sh 'mvn clean package'  // Build the project and create a JAR file
       }
     }
 
