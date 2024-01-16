@@ -4,7 +4,7 @@ pipeline {
 
   environment {
     DOCKER_USER = "devopstech24"
-    APP_NAME = "JAVA-APPLICATION"
+    APP_NAME = "java-application-demo"
     IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
 
     RELEASE = "1.0.0"
