@@ -67,8 +67,9 @@ pipeline {
 
   environment {    // GO INSIDE Manage Jenkins and get the names of both tools we set earlier (myDocker & myMaven)
 		// dockerHome = tool 'myDocker'
-    // sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
-    // PATH =  "/usr/local/bin:$PATH"
+    // https://github.com/azure123devops123/spring-first-app
+    sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
+    PATH =  "/usr/local/bin:$PATH"
 		// PATH =  "$dockerHome/bin:$PATH"      // add both tools to our path
     
     DOCKER_USER = "devopstech24"
