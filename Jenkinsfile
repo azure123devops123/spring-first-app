@@ -11,16 +11,9 @@ pipeline {
     IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"          // BUILD_NUMBER is the environment variable
 	}
 
-  // tools {
-  //   // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
-  //   // Install Docker inside Container 
-  //   sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
-  // }
-
   agent {
     docker {
       image 'maven:latest'  //3.9.6
-      sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
@@ -54,7 +47,10 @@ pipeline {
 
 		stage ('Build & Push Docker Image to Docker Hub') {
 			steps {
-				script {                 
+				script {
+          // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz
+          // Install Docker inside Container     
+          sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'     
 					docker.withRegistry('','DockerhubID') {
               dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
 					} // end of wrapper (withRegistry)
