@@ -3,7 +3,7 @@
 pipeline {
 
   environment {
-    DOCKER_USER = "Java-Application-Code-Jenkins-Continuous-Integration"
+    DOCKER_USER = "jenkins-devops-microservice"
     APP_NAME = "jenkins-devops-microservice"
     IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
 
