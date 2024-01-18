@@ -7,9 +7,9 @@ pipeline {
                 cleanWs()
             }
         }
-        stage('Hello') {
+        stage('Git Checkout') {
             steps {
-                echo 'Hello World'
+                git branch: 'main', url: 'https://github.com/azure123devops123/spring-first-app'
                 }
         }
         stage('Hello World') {
