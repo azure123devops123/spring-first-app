@@ -1,3 +1,5 @@
+// https://www.yamllint.com/        validate yaml
+
 pipeline {
     agent any
     tools {
