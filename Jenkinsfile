@@ -16,10 +16,21 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/azure123devops123/spring-first-app'
                 }
         }
-        stage('Compile') {
+        stage('Code Compile') {
             steps {
                 sh 'mvn compile'
             }
         }
+        stage('Unit Test') {
+            steps {
+                sh 'mvn test -DskipTests=true'
+            }
+        }
+        stage('Hello World') {
+            steps {
+                sh 'Hello World'
+            }
+        }
+
     }
 }
