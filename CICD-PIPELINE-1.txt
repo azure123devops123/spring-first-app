@@ -1,0 +1,130 @@
+The Ultimate CICD Corporate DevOps Pipeline Project:   by DevOps Shack
+
+link: https://www.youtube.com/watch?v=yH9RoOFEKMY
+
+github: https://github.com/jaiswaladi246/Ekart
+
+https://github.com/jaiswaladi246/K8/blob/main/STEPS.txt
+https://github.com/jaiswaladi246/K8/blob/main/New-K8.md
+https://github.com/jaiswaladi246/K8/blob/main/Nginx.yaml
+https://github.com/jaiswaladi246/Ekart/blob/main/deploymentservice.yml
+https://github.com/jaiswaladi246/Ekart/blob/main/pom.xml
+https://github.com/jaiswaladi246/Ekart/blob/main/README.md
+
+
+# Additional Info:
+Ram: 4GB
+Processor - Instance type: t2.large
+Harddisk: 25GB
+Vpc: devopstech24
+Subnet ID: devopstech24-alb-public-subnet-2a
+Key pair: jabir-practice
+Elastic IP address: Assign to the SERVER
+
+# Install Jenkins Doc Plugins in VS Code.
+
++++++++++++++++++++ PHASE - 1 +++++++++++++++++++
+Commands:
+sudo apt update
+sudo apt upgrade
+sudo su     OR  sudo -i         //BECOME ROOT
+
+// change hostname of the server:
+sudo hostnamectl set-hostname JENKINS-SONARQUBE-NEXUS-SERVER                
+/bin/bash
+
+
+1) Docker installation:
+apt  install docker.io      # version 24.0.5-0ubuntu1~22.04.1
+
+OR
+
+curl https://get.docker.com/ | sh           // Installation using script
+docker --version                            // Docker version 24.0.7, build afdd53b
+
+
+2) Jenkins Server Installation as a container:    (RUNS ON PORT 8080)
+Follow All the instruction inside below link:
+https://www.jenkins.io/doc/book/installing/docker/#downloading-and-running-jenkins-in-docker       // USE PORT 8081 to run the myjenkins-blueocean container
+
+docker ps           // two containers must be up and running. jenkins-docker and jenkins-blueocean
+
+docker logs a324e1ad82f0        // At the bottom check the log to copy the initial password:          Jenkins initial: 3ef98426bfb8409090d092376d012389
+OR 
+docker exec -it a324e1ad82f0 /bin/bash
+cat /var/jenkins_home/secrets/initialAdminPassword          // Get initial password:          Jenkins initial: 3ef98426bfb8409090d092376d012389
+exit
+
+IMPORTANT:- Open the port 8081 on the server. and the configure Jenkins Server.   http://13.237.91.151:8081/
+USERNAME: admin
+PASSWORD: pass
+
+IMPORTANT: after docker and jenkins installation we jenkins user already has permission to run docker command.
+docker exec -it a324e1ad82f0 /bin/bash
+
+jenkins@a324e1ad82f0:/$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+3) Sonarqube Server Installation as a container and then configure it:     (RUNS ON PORT 9000)
+docker run -d -p 9000:9000 sonarqube:lts-community                  // As sonarqube:lts-developer is paid version so install lts-community 
+docker ps               // Now in total three containers are running
+
+IMPORTANT:- Open the port 9000 on the server. and the configure Sonarqube Server.   http://13.237.91.151:9000/
+USERNAME: admin
+PASSWORD: admin                 // Set New Password: pass
+
+4) Nexus Server Installation as a container and then configure it:           (RUNS ON PORT 8081)
+docker run -d -p 8082:8081 sonatype/nexus3              
+docker ps               // Now in total four containers are running
+
+IMPORTANT:- Open the port 8082 on the server. and the configure Nexus Server.   http://13.237.91.151:8082/
+
+
++++++++++++++++++++ PHASE - 2 +++++++++++++++++++
+=> Install Plugins using Plugins Manager:
+
+1) SonarQube:
+SonarQube Scanner
+
+2) Nexus:
+Nexus Artifact Uploader
+
+3) Docker:
+Docker
+Docker API
+docker-build-step
+CloudBees Docker Build and Publish
+
+4) owasp
+OWASP Dependency-Check
+
+5) eclipse temurin for jdk
+Eclipse Temurin installer
+
+6) config
+Config File Provider
+
+IMPORTANT:- After installation of plugins restart the jenkins server to reflect the changes:
+docker restart a324e1ad82f0
+
+=> Tools Configuration:
+1) JDK:                                  (Name: jdk17,  Installer: Install from adoptium.net, Version: jdk-17.0.9+9)
+2) SonarQube Scanner installations:      (Name: sonar-scanner,  Version: SonarQube Scanner 5.0.1.3006)
+3) Maven:                                (Name: maven3, Installer: Install from Apache, Version: 3.6.3)
+4) Dependency-Check installations:       (Name: DC, Installer: Install from github.com, Version: dependency-check 6.5.1)     
+5) Docker:                               (Name: docker24, Installer: Download from docker.com, Version: latest)
+
+docker --version     // Docker version 24.0.7, build afdd53b
+java --version       // OpenJDK Runtime Environment Temurin-17.0.9+9
+
+----------------------------------------------------------------------------
+
+
+
+OTHER PROJECTS AFTER This
+https://www.youtube.com/watch?v=g8X5AoqCJHc
+https://www.youtube.com/watch?v=q4g7KJdFSn0
+https://www.youtube.com/watch?v=e42hIYkvxoQ
+https://www.youtube.com/watch?v=JGQI5pkK82w
+
+https://www.youtube.com/watch?v=361bfIvXMBI     // BASIC
