@@ -113,9 +113,14 @@ docker restart a324e1ad82f0
 3) Maven:                                (Name: maven3, Installer: Install from Apache, Version: 3.6.3)
 4) Dependency-Check installations:       (Name: DC, Installer: Install from github.com, Version: dependency-check 6.5.1)     
 5) Docker:                               (Name: docker24, Installer: Download from docker.com, Version: latest)
+6) Git
 
 docker --version     // Docker version 24.0.7, build afdd53b
 java --version       // OpenJDK Runtime Environment Temurin-17.0.9+9
+git --version        // git version 2.34.1
+
+=> Connection Authentication:
+
 
 ----------------------------------------------------------------------------
 

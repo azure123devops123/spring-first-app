@@ -2,23 +2,24 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+    stage('Hello') {
             steps {
                 echo 'Hello World'
             }
         }
+
+    stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }    
+
+
+
     }
 }
-
-// pipelines {
-//   agent{
-//       any
-//   }
-//   stages{
-//       stage ('Clean Up') {
-//         steps {
-//           cleanWs()
-//         }
-//       }
-//   }
-// }
