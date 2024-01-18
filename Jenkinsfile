@@ -26,11 +26,5 @@ pipeline {
                 sh 'mvn test -DskipTests=true'
             }
         }
-        stage('Hello World') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-
     }
 }
