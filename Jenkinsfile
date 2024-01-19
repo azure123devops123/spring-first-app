@@ -35,16 +35,11 @@ pipeline {
         stage('BuSonarQube Static Code Analysis') {
             steps {
                 withSonarQubeEnv('sonar') {         // Pass only server name
-                    // Following -Dsonar mean argument which we pass and ''' means its multilines but single block code
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectKey=EKART -Dsonar.projectName=EKART \
-                    -Dsonar.java.binaries-. '''
+                   // Following -Dsonar mean argument which we pass and ''' means its multilines but single block code
+                   sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectKey=EKART -Dsonar.projectName=EKART \
+                   -Dsonar.java.binaries-. '''
                 }
             }
         }
-        // stage('Unit Test') {
-        //     steps {
-        //         sh 'mvn test -DskipTests=true'
-        //     }
-        // }
     }
 }
