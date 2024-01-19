@@ -34,7 +34,7 @@ pipeline {
         }
         stage('BuSonarQube Static Code Analysis') {
             steps {
-                
+                echo 'DEMO'
             }
         }
         // stage('Unit Test') {
