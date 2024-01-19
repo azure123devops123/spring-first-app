@@ -7,6 +7,10 @@ pipeline {
       jdk 'jdk17'
       //docker 'docker24'
     }
+    environment {
+      SONARQ_HOME tool 'sonar-scanner'
+    }
+    
     stages {
         stage('Cleanup Workspace') {
             steps {

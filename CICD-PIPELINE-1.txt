@@ -177,6 +177,11 @@ Step b) Open the pom.xml file inside your project and configure URL:
     </snapshotRepository>
 </distributionManagement>
 
+
+// IMPORTANT: VALIDATE YAML ONLINE:     https://www.yamllint.com/
+
+
+
 ----------------------------------------------------------------------------
 
 
