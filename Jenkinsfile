@@ -67,13 +67,19 @@ pipeline {
         //       }
         //     }
         // }
-        stage ('Build & Push Docker Image to Docker Hub') {
+        stage ('Build Docker Image') {
             steps {
               script {
                 // Build and Tag an Image
                 docker.withRegistry('','dockerhub-cred') {
                     dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                 }
+              }
+            }
+          }
+          stage ('Push Image to Docker Hub') {
+            steps {
+              script {
                 // Push the Image to Dockerhub
                 docker.withRegistry('','dockerhub-cred') {
                     dockerImage.push();
