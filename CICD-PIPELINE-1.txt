@@ -102,6 +102,8 @@ OWASP Dependency-Check
 5) eclipse temurin for jdk
 Eclipse Temurin installer
 
+6) Maven Integration plugin
+Maven Integration plugin
 
 IMPORTANT:- After installation of plugins restart the jenkins server to reflect the changes:
 docker restart a324e1ad82f0
