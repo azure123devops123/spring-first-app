@@ -97,11 +97,18 @@ pipeline {
             steps {
               // Install Docker Scout inside Container
               sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
-              script {
-                docker.withRegistry('','dockerhub-cred') {
-                  sh 'docker-scout cves ${IMAGE_NAME}:${IMAGE_TAG} --exit-code --only-severity critical'
-                }
-              }
+
+              // Log into Docker Hub
+              sh 'echo dockerhub-cred | docker login -u $DOCKER_USER --password-stdin'
+
+              // Analyze and fail on critical or high vulnerabilities
+              sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical,high'
+
+              // script {
+              //   docker.withRegistry('','dockerhub-cred') {
+              //     sh 'docker-scout cves ${IMAGE_NAME}:${IMAGE_TAG} --exit-code --only-severity critical'
+              //   }
+              // }
             }
         }
         stage('Cleanup Artifacts') {
