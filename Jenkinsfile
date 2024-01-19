@@ -74,7 +74,7 @@ pipeline {
                 docker.withRegistry('','dockerhub-cred') {
                     dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                 }
-                // Push Image to Dockerhub
+                // Push the Image to Dockerhub
                 docker.withRegistry('','dockerhub-cred') {
                     dockerImage.push();
                     dockerImage.push('latest')   // We can't push without Jenkins having Docker Hub Credentials (DockerID and Token (note:-Password will not work).
