@@ -8,7 +8,7 @@ pipeline {
       //docker 'docker24'
     }
     environment {
-      SONARQ_HOME tool 'sonar-scanner'
+      SCANNER_HOME= tool 'sonar-scanner'
     }
     
     stages {
@@ -32,11 +32,11 @@ pipeline {
                 sh 'mvn test -DskipTests=true'
             }
         }
-        // stage('Build') {
-        //     steps {
-        //         sh 'mvn test -DskipTests=true'
-        //     }
-        // }
+        stage('BuSonarQube Static Code Analysis') {
+            steps {
+                
+            }
+        }
         // stage('Unit Test') {
         //     steps {
         //         sh 'mvn test -DskipTests=true'
