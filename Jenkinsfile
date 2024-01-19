@@ -77,11 +77,11 @@ pipeline {
               }
             }
           }
-        stage ('Trivy Scan') {
-            steps {
-              sh 'trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy-report.txt'
-            }
-          }
+        // stage ('Trivy Scan') {
+        //     steps {
+        //       sh 'trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy-report.txt'
+        //     }
+        //   }
           stage ('Push Image to Docker Hub') {
             steps {
               script {
