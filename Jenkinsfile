@@ -28,5 +28,15 @@ pipeline {
                 sh 'mvn test -DskipTests=true'
             }
         }
+        // stage('Build') {
+        //     steps {
+        //         sh 'mvn test -DskipTests=true'
+        //     }
+        // }
+        // stage('Unit Test') {
+        //     steps {
+        //         sh 'mvn test -DskipTests=true'
+        //     }
+        // }
     }
 }

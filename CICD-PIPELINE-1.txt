@@ -88,6 +88,7 @@ SonarQube Scanner
 
 2) Nexus:
 Nexus Artifact Uploader
+Config File Provider     // Help with Nexus Server Configuration. 
 
 3) Docker:
 Docker
@@ -101,8 +102,6 @@ OWASP Dependency-Check
 5) eclipse temurin for jdk
 Eclipse Temurin installer
 
-6) config
-Config File Provider
 
 IMPORTANT:- After installation of plugins restart the jenkins server to reflect the changes:
 docker restart a324e1ad82f0
@@ -119,8 +118,64 @@ docker --version     // Docker version 24.0.7, build afdd53b
 java --version       // OpenJDK Runtime Environment Temurin-17.0.9+9
 git --version        // git version 2.34.1
 
-=> Connection Authentication:
+=> Connection Authentication (DOCKER HUB and SONARQUBE):
+// Generate Token: http://13.237.91.151:9000/   Click on A (Administrator) => My Account => Security =>       
+sqa_5919322a84339d0cb5d162d13177bb41c11326fa
 
+// Manage Jenkins  =>  Credentials => Stores scoped to Jenkins (global)  =>  Add Credentials => 
+    Kind: Secret Text
+    Secret: sqa_5919322a84339d0cb5d162d13177bb41c11326fa
+    ID: sonar-cred  (It could be anything)
+
+// Manage Jenkins  =>  Credentials => Stores scoped to Jenkins (global)  =>  Add Credentials => 
+    Kind: Username with password
+    Username: devopstech24
+    Password: dckr_pat_dlGY_urWwMV02Ma7yV47JHIx-O0          // IMPORTANT: HERE WE HAVE TO PROVIDE OUR TOKEN
+    ID: dockerhub-cred  (It could be anything)
+
+
+=> CONFIGURE SONARQUBE SERVER inside System in Jenkins.
+Name: sonar
+Server URL: http://13.237.91.151:9000
+Server authentication token: Select 'sonar-cred' Token
+
+=> CONFIGURE NEXUS SERVER (2 Steps Process):
+Step a) Inside Jenkins Configuration:            
+Manage Jenkins => Config File Management
+Type: Global Maven settings.xml
+ID: global-maven
+Content: 
+
+    <server>
+      <id>maven-releases</id>
+      <username>admin</username>
+      <password>pass</password>
+    </server>
+        <server>
+      <id>maven-snapshots</id>
+      <username>admin</username>
+      <password>pass</password>
+    </server>
+
+// IMPORTANT: maven-releases used for Actual one which we deploy to Production and maven-snapshots are for development environment.
+
+Step b) Open the pom.xml file inside your project and configure URL:
+
+// Copy both URLS from Nexus and configure inside pom.xml after the </build>
+
+
+         <distributionManagement>
+    <repository>
+      <id>maven-releases</id>
+      <name>maven-releases</name>
+      <url>http://13.237.91.151:8082/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>maven-snapshots</id>
+      <name>maven-snapshots</name>
+      <url>http://13.237.91.151:8082/repository/maven-snapshots/</url>
+    </snapshotRepository>
+</distributionManagement>
 
 ----------------------------------------------------------------------------
 

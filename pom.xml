@@ -52,4 +52,19 @@
 		</plugins>
 	</build>
 
+         <distributionManagement>
+    <repository>
+      <id>maven-releases</id>
+      <name>maven-releases</name>
+      <url>http://13.237.91.151:8082/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>maven-snapshots</id>
+      <name>maven-snapshots</name>
+      <url>http://13.237.91.151:8082/repository/maven-snapshots/</url>
+    </snapshotRepository>
+</distributionManagement>
+
 </project>
+
+
