@@ -77,13 +77,12 @@ pipeline {
               }
             }
           }
-
-        stage('Front-end') {
+        stage ('Trivy Scan') {
             agent {
-              docker { image 'busybox:stable' }
+              docker { image 'aquasec/trivy:latest' }
             }
             steps {
-              echo 'Busybox Container'
+              sh 'trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy-report.txt'
             }
           }
           stage ('Push Image to Docker Hub') {
