@@ -67,13 +67,6 @@ pipeline {
         //       }
         //     }
         // }
-        stage('Deploy Artifact to Nexus') {
-            steps {
-              withMaven(globalMavenSettingsConfig: 'global-maven', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
-                  sh 'mvn deploy -DskipTests=true'
-              }
-            }
-        }
         stage ('Build & Push Docker Image to Docker Hub') {
             steps {
               // Install Docker inside Container
@@ -101,6 +94,20 @@ pipeline {
                 }
               }
             }
-       }
+        }
+        stage('Cleanup Artifacts') {
+            steps {
+              script {
+                sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'  // Remove Current Tagged Image
+                sh 'docker rmi ${IMAGE_NAME}:latest'  // Remove latest Tagged Image
+                sh 'docker image prune --force' // Remove dangling images without prompt for confirmation
+              }
+            }
+        }
+        stage('Cleanup Workspace'){
+            steps {
+              cleanWs()
+            }
+        }
     }
 }
