@@ -93,17 +93,17 @@ pipeline {
               }
             }
           }
-        // stage ('Analyze Image - Docker Scout Image Scanner') {
-        //     steps {
-        //       // Install Docker Scout inside Container
-        //       sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
-        //       script {
-        //         docker.withRegistry('','dockerhub-cred') {
-        //           sh 'docker-scout cves ${IMAGE_NAME}:${IMAGE_TAG} --exit-code --only-severity critical'
-        //         }
-        //       }
-        //     }
-        // }
+        stage ('Analyze Image - Docker Scout Image Scanner') {
+            steps {
+              // Install Docker Scout inside Container
+              sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
+              script {
+                docker.withRegistry('','dockerhub-cred') {
+                  sh 'docker-scout cves ${IMAGE_NAME}:${IMAGE_TAG} --exit-code --only-severity critical'
+                }
+              }
+            }
+        }
         stage('Cleanup Artifacts') {
             steps {
               script {
