@@ -67,13 +67,13 @@ pipeline {
                 sh 'mvn package -DskipTests=true'
             }
         }
-        stage('Deploy Artifact to Nexus') {
-            steps {
-              withMaven(globalMavenSettingsConfig: 'global-maven', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
-                  sh 'mvn deploy -DskipTests=true'
-              }
-            }
-        }
+        // stage('Deploy Artifact to Nexus') {
+        //     steps {
+        //       withMaven(globalMavenSettingsConfig: 'global-maven', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+        //           sh 'mvn deploy -DskipTests=true'
+        //       }
+        //     }
+        // }
         stage ('Build Docker Image') {
             steps {
               script {
