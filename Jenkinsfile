@@ -49,6 +49,17 @@ pipeline {
         //         }
         //     }
         // }
+        stage('BuSonarQube Static Code Analysis') {
+            steps {
+                withSonarQubeEnv('sonar') {         // Pass only server name
+                    //sh "${scannerHome}/bin/sonar-scanner"
+                   // Following -Dsonar mean argument which we pass and ''' means its multilines but single block code
+                   sh 'mvn sonar:sonar'
+                  //  sh ''' ${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=spring-first-app -Dsonar.projectName=spring-first-app \
+                  //  -Dsonar.java.binaries-. '''
+                }
+            }
+        }
         stage('OWASP Dependency Check') {
             steps {
                 dependencyCheck additionalArguments: ' --scan ./', odcInstallation: 'DC'
@@ -93,24 +104,24 @@ pipeline {
               }
             }
           }
-        stage ('Analyze Image - Docker Scout Image Scanner') {
-            steps {
-              // Install Docker Scout inside Container
-              sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
+        // stage ('Analyze Image - Docker Scout Image Scanner') {
+        //     steps {
+        //       // Install Docker Scout inside Container
+        //       sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
 
-              // Log into Docker Hub
-              sh 'echo $dockerhub-cred | docker login -u $DOCKER_USER --password-stdin'
+        //       // Log into Docker Hub
+        //       sh 'echo $dockerhub-cred | docker login -u $DOCKER_USER --password-stdin'
 
-              // Analyze and fail on critical or high vulnerabilities
-              sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical,high'
+        //       // Analyze and fail on critical or high vulnerabilities
+        //       sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical,high'
 
-              // script {
-              //   docker.withRegistry('','dockerhub-cred') {
-              //     sh 'docker-scout cves ${IMAGE_NAME}:${IMAGE_TAG} --exit-code --only-severity critical'
-              //   }
-              // }
-            }
-        }
+        //       // script {
+        //       //   docker.withRegistry('','dockerhub-cred') {
+        //       //     sh 'docker-scout cves ${IMAGE_NAME}:${IMAGE_TAG} --exit-code --only-severity critical'
+        //       //   }
+        //       // }
+        //     }
+        // }
         stage('Cleanup Artifacts') {
             steps {
               script {
