@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Git Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/azure123devops123/spring-first-app'
+                git branch: 'main' , url: 'https://github.com/azure123devops123/spring-first-app'
                 }
         }
         stage('Code Compile') {
