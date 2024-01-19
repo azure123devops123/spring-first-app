@@ -78,9 +78,6 @@ pipeline {
             }
           }
         stage ('Trivy Scan') {
-            agent {
-              docker { image 'aquasec/trivy:latest' }
-            }
             steps {
               sh 'trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy-report.txt'
             }
