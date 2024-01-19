@@ -9,6 +9,13 @@ pipeline {
     }
     environment {
       SCANNER_HOME= tool 'sonar-scanner'        // we define this tool and we can use it below.
+
+      DOCKER_USER = "devopstech24"
+      APP_NAME = "java-application-jenkins-ci-pipeline" // This repo will be created on dockrhub automatically.
+      IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
+
+      RELEASE = "1.0.0" // Semantic versioning (Major.Minor.Patch)
+      IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"          // BUILD_NUMBER is the environment variable
     }
     
     stages {
@@ -53,6 +60,13 @@ pipeline {
                 sh 'mvn package -DskipTests=true'
             }
         }
+        // stage('Deploy Artifact to Nexus') {
+        //     steps {
+        //       withMaven(globalMavenSettingsConfig: 'global-maven', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+        //           sh 'mvn deploy -DskipTests=true'
+        //       }
+        //     }
+        // }
         stage('Deploy Artifact to Nexus') {
             steps {
               withMaven(globalMavenSettingsConfig: 'global-maven', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
@@ -60,5 +74,33 @@ pipeline {
               }
             }
         }
+        stage ('Build & Push Docker Image to Docker Hub') {
+            steps {
+              // Install Docker inside Container
+              sh 'curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-24.0.7.tgz && tar --strip-components=1 -xvzf docker-24.0.7.tgz -C /usr/local/bin'   // YOU CAN FIND CURRENT BINAARY VERSION THEN DOWNLOAD AND INSTALL BELOW: https://download.docker.com/linux/static/stable/x86_64/   => docker-24.0.7.tgz 
+              script {
+                // Build and Tag Image
+                docker.withRegistry('','dockerhub-cred') {
+                    dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                }
+                // Push Image to Dockerhub
+                docker.withRegistry('','dockerhub-cred') {
+                    dockerImage.push();
+                    dockerImage.push('latest')   // We can't push without Jenkins having Docker Hub Credentials (DockerID and Token (note:-Password will not work).
+                }
+              }
+            }
+          }
+        stage ('Analyze Image - Docker Scout Image Scanner') {
+            steps {
+              // Install Docker Scout inside Container
+              sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
+              script {
+                docker.withRegistry('','dockerhub-cred') {
+                  sh 'docker-scout cves ${IMAGE_NAME}:${IMAGE_TAG} --exit-code --only-severity critical'
+                }
+              }
+            }
+       }
     }
 }
