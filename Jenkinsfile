@@ -99,10 +99,10 @@ pipeline {
               sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
 
               // Log into Docker Hub
-              sh 'echo dockerhub-cred | docker login -u $DOCKER_USER --password-stdin'
+              sh 'echo $dockerhub-cred | docker login -u $DOCKER_USER --password-stdin'
 
               // Analyze and fail on critical or high vulnerabilities
-              sh '$docker-scout cves $IMAGE_TAG --exit-code --only-severity critical,high'
+              sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical,high'
 
               // script {
               //   docker.withRegistry('','dockerhub-cred') {
