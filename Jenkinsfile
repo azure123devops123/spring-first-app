@@ -51,12 +51,8 @@ pipeline {
         // }
         stage('SonarQube Static Code Analysis') {
             steps {
-                withSonarQubeEnv('sonar') {         // Pass only server name
-                    //sh "${scannerHome}/bin/sonar-scanner"
-                   // Following -Dsonar mean argument which we pass and ''' means its multilines but single block code
-                   sh 'mvn clean verify sonar:sonar'
-                  //  sh ''' ${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=spring-first-app -Dsonar.projectName=spring-first-app \
-                  //  -Dsonar.java.binaries-. '''
+                withSonarQubeEnv('sonar') {            // Pass only server name
+                   sh 'mvn clean verify sonar:sonar'   // Analyzing a Maven project consists of running a Maven goal: sonar:sonar from the directory that holds the main project pom.xml
                 }
             }
         }
@@ -71,13 +67,13 @@ pipeline {
                 sh 'mvn package -DskipTests=true'
             }
         }
-        // stage('Deploy Artifact to Nexus') {
-        //     steps {
-        //       withMaven(globalMavenSettingsConfig: 'global-maven', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
-        //           sh 'mvn deploy -DskipTests=true'
-        //       }
-        //     }
-        // }
+        stage('Deploy Artifact to Nexus') {
+            steps {
+              withMaven(globalMavenSettingsConfig: 'global-maven', jdk: 'jdk17', maven: 'maven3', traceability: true) {  // , mavenSettingsConfig: ''
+                  sh 'mvn deploy -DskipTests=true'
+              }
+            }
+        }
         stage ('Build Docker Image') {
             steps {
               script {
