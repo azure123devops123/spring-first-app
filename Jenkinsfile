@@ -35,9 +35,10 @@ pipeline {
         stage('BuSonarQube Static Code Analysis') {
             steps {
                 withSonarQubeEnv('sonar') {         // Pass only server name
+                    sh "${scannerHome}/bin/sonar-scanner"
                    // Following -Dsonar mean argument which we pass and ''' means its multilines but single block code
-                   sh ''' ${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=EKART -Dsonar.projectName=EKART \
-                   -Dsonar.java.binaries-. '''
+                   // sh ''' ${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=EKART -Dsonar.projectName=EKART \
+                   // -Dsonar.java.binaries-. '''
                 }
             }
         }
