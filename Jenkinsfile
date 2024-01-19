@@ -36,7 +36,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar') {         // Pass only server name
                    // Following -Dsonar mean argument which we pass and ''' means its multilines but single block code
-                   sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectKey=EKART -Dsonar.projectName=EKART \
+                   sh ''' ${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=EKART -Dsonar.projectName=EKART \
                    -Dsonar.java.binaries-. '''
                 }
             }
