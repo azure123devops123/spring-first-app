@@ -8,7 +8,7 @@ pipeline {
       //docker 'docker24'
     }
     environment {
-      SCANNER_HOME= tool 'sonar-scanner'
+      SCANNER_HOME= tool 'sonar-scanner'        // we define this tool and we can use it below.
     }
     
     stages {
@@ -34,7 +34,11 @@ pipeline {
         }
         stage('BuSonarQube Static Code Analysis') {
             steps {
-                echo 'DEMO'
+                withSonarQubeEnv('sonar') {         // Pass only server name
+                    // Following -Dsonar mean argument which we pass and ''' means its multilines but single block code
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectKey=EKART -Dsonar.projectName=EKART \
+                    -Dsonar.java.binaries-. '''
+                }
             }
         }
         // stage('Unit Test') {
