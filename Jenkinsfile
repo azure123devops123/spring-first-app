@@ -15,7 +15,7 @@ pipeline {
       IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
 
       RELEASE = "1.0.0" // Semantic versioning (Major.Minor.Patch)
-      IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"          // BUILD_NUMBER is the environment variable...
+      IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"          // BUILD_NUMBER is the environment variable
     }
     
     stages {
