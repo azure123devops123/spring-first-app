@@ -74,7 +74,7 @@ USERNAME: admin
 PASSWORD: admin                 // Set New Password: pass
 
 4) Nexus Server Installation as a container and then configure it:           (RUNS ON PORT 8081)
-docker run -d -p 8082:8081 sonatype/nexus3              
+docker run -d -p 8082:8081 -v nexus-data:/nexus-data sonatype/nexus3              
 docker ps               // Now in total four containers are running
 
 IMPORTANT:- Open the port 8082 on the server. and the configure Nexus Server.   http://13.237.91.151:8082/

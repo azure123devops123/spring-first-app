@@ -77,7 +77,7 @@ pipeline {
         stage ('Build Docker Image') {
             steps {
               script {
-                // Build and Tag an Image
+                // Build and Tag an Image...
                 docker.withRegistry('','dockerhub-cred') {
                     dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                 }
