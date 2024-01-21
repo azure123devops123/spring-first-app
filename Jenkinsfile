@@ -88,7 +88,7 @@ pipeline {
           }
         stage ('Trivy Scan') {
              steps {
-                 sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.48.3'
+                 sh 'sudo curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.48.3'
                  sh 'trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy-report.txt'
              }
         }
