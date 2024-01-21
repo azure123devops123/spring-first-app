@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Installing Dependencies') {
             steps {
-                sh 'mvn clean install -s mvn-settings.xml'
+                sh 'mvn clean install -s settings.xml'
             }
         }
         stage('Code Compile') {
