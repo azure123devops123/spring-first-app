@@ -29,11 +29,6 @@ pipeline {
                 git branch: 'main' , url: 'https://github.com/azure123devops123/spring-first-app'
                 }
         }
-        // stage('Installing Dependencies') {
-        //     steps {
-        //         sh 'mvn clean install -f pom.xml'
-        //     }
-        // }
         stage('Code Compile') {
             steps {
                 sh 'mvn compile'
@@ -44,6 +39,7 @@ pipeline {
                 sh 'mvn test -DskipTests=true'
             }
         }
+        // ..........Another way to write the code.........
         // stage('BuSonarQube Static Code Analysis') {
         //     steps {
         //         withSonarQubeEnv('sonar') {         // Pass only server name
@@ -54,6 +50,7 @@ pipeline {
         //         }
         //     }
         // }
+        //.................................................
         stage('SonarQube Static Code Analysis') {
             steps {
                 withSonarQubeEnv('sonar') {            // Pass only server name
@@ -72,13 +69,13 @@ pipeline {
                 sh 'mvn package -DskipTests=true'
             }
         }
-        stage('Deploy Artifact to Nexus') {
-            steps {
-               withMaven(globalMavenSettingsConfig: 'global-maven', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
-                   sh 'mvn deploy -DskipTests=true'
-               }
-            }
-        }
+        // stage('Deploy Artifact to Nexus') {
+        //     steps {
+        //        withMaven(globalMavenSettingsConfig: 'global-maven', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+        //            sh 'mvn deploy -DskipTests=true'
+        //        }
+        //     }
+        // }
         stage ('Build Docker Image') {
             steps {
               script {
@@ -89,11 +86,12 @@ pipeline {
               }
             }
           }
-        // stage ('Trivy Scan') {
-        //     steps {
-        //       sh 'trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy-report.txt'
-        //     }
-        //   }
+        stage ('Trivy Scan') {
+             steps {
+                 sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.48.3'
+                 sh 'trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy-report.txt'
+             }
+        }
           stage ('Push Image to Docker Hub') {
             steps {
               script {
