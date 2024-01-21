@@ -29,6 +29,11 @@ pipeline {
                 git branch: 'main' , url: 'https://github.com/azure123devops123/spring-first-app'
                 }
         }
+        stage('Installing Dependencies') {
+            steps {
+                sh 'mvn clean install -s mvn-settings.xml'
+            }
+        }
         stage('Code Compile') {
             steps {
                 sh 'mvn compile'
