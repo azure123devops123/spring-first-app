@@ -8,7 +8,7 @@ pipeline {
       //docker 'docker24'
     }
     environment {
-      SCANNER_HOME = tool 'sonar-scanner'        // we define this tool and we can use it below.
+      // SCANNER_HOME = tool 'sonar-scanner'        // we define this tool and we can use it below.
 
       DOCKER_USER = "devopstech24"
       APP_NAME = "java-application-jenkins-ci-pipeline" // This repo will be created on dockrhub automatically.
