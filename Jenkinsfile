@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Code Compile') {
             steps {
-                sh 'mvn compile'
+                sh 'mvn clean compile'
             }
         }
         stage('Unit Test') {
@@ -66,7 +66,7 @@ pipeline {
         // }
         stage('Package') {
             steps {
-                sh 'mvn package -DskipTests=true'
+                sh 'mvn clean package -DskipTests=true'
             }
         }
         // stage('Deploy Artifact to Nexus') {
