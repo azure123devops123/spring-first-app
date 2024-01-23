@@ -8,7 +8,7 @@ ubuntu@JENKINS-SONARQUBE-SERVER:~$
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% JENKINS INSTALLATION %%%%%%%%%%%%%%%%%%%%%%%%%%
 # Install JRE
-sudo apt install openjdk-11-jre     // JRE 11 is pre-requisite for Jenkins as Jenkins is a Java Application
+sudo apt install openjdk-17-jre     // JRE 11 is pre-requisite for Jenkins as Jenkins is a Java Application
 java --version                      // Java is Installed    
 
 # Install Jenkins ( https://www.jenkins.io/  -> Documentation -> Installing Jenkins -> Linux -> Debian/Ubuntu -> Long Term Support release )

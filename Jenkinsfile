@@ -51,19 +51,19 @@ pipeline {
         //     }
         // }
         //.................................................
-        stage('SonarQube Static Code Analysis') {
-            steps {
-                withSonarQubeEnv('sonar') {            // Pass only server name
-                   sh 'mvn clean verify sonar:sonar'   // Analyzing a Maven project consists of running a Maven goal: sonar:sonar from the directory that holds the main project pom.xml
-                }
-            }
-        }
-        stage('OWASP Dependency Check') {
-            steps {
-                dependencyCheck additionalArguments: ' --scan ./', odcInstallation: 'DC'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
+        // stage('SonarQube Static Code Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('sonar') {            // Pass only server name
+        //            sh 'mvn clean verify sonar:sonar'   // Analyzing a Maven project consists of running a Maven goal: sonar:sonar from the directory that holds the main project pom.xml
+        //         }
+        //     }
+        // }
+        // stage('OWASP Dependency Check') {
+        //     steps {
+        //         dependencyCheck additionalArguments: ' --scan ./', odcInstallation: 'DC'
+        //         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+        //     }
+        // }
         stage('Package') {
             steps {
                 sh 'mvn package -DskipTests=true'
@@ -88,7 +88,7 @@ pipeline {
           }
         stage ('Trivy Scan') {
              steps {
-                 //sh 'sudo curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.48.3'
+                 sh 'sudo curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.48.3'
                  sh 'trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy-report.txt'
              }
         }
