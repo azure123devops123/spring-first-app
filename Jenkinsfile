@@ -16,6 +16,8 @@ pipeline {
 
       RELEASE = "1.0.0" // Semantic versioning (Major.Minor.Patch)
       IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"          // BUILD_NUMBER is the environment variable
+
+      JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
     }
     
     stages {
@@ -130,5 +132,24 @@ pipeline {
               }
             }
         }
+        // stage("Trigger CD Pipeline") {
+        //     steps {
+        //         script {
+        //             sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'https://jenkins.dev.devopstech24.click/job/spring-boot-app-cd-pipeline/buildWithParameters?token=gitops-token'"
+        //         }
+        //     }
+        // }
     }
+    // post {
+    //     failure {
+    //         emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
+    //                 subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Failed", 
+    //                 mimeType: 'text/html',to: "azure123.devops123@gmail.com"
+    //         }
+    //      success {
+    //            emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
+    //                 subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful", 
+    //                 mimeType: 'text/html',to: "azure123.devops123@gmail.com"
+    //       }      
+    // }
 }
