@@ -195,3 +195,19 @@ https://www.youtube.com/watch?v=e42hIYkvxoQ
 https://www.youtube.com/watch?v=JGQI5pkK82w
 
 https://www.youtube.com/watch?v=361bfIvXMBI     // BASIC
+
+
+INSTALL MAINLINE NGINX:
+-----------------------
+Installing Prebuilt Ubuntu Packages    => https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#installing-prebuilt-ubuntu-packages
+
+
+server {
+    listen       80;
+    server_name  demo.devopstech24.click;
+
+    location / {
+        proxy_pass   http://3.104.121.138:8080;
+    }
+}    
+
