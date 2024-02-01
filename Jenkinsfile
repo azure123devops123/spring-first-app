@@ -15,6 +15,12 @@ pipeline {
                 cleanWs()
             }  
         }
+        stage ('Git Checkout') {
+            steps{
+                echo 'mvn --version'
+                echo 'java --version'
+            }  
+        }
     }
 
 }
