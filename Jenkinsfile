@@ -6,9 +6,9 @@ pipeline {
         maven 'mvn3'
         jdk 'jdk17'
     }
-    // environment{
-    //     sonar = tool 'SonarScanner'
-    // }
+    environment{
+        sonar = tool 'SonarScanner'
+    }
     stages{
         stage ('Workspace Cleanup') {
             steps {
