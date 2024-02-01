@@ -19,6 +19,8 @@ pipeline {
             steps{
                 sh 'mvn --version'
                 sh 'java --version'
+                git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/azure123devops123/spring-first-app'
+                sh 'ls'
             }  
         }
     }
