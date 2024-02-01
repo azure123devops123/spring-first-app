@@ -158,11 +158,9 @@ root        5286    5094  0 16:09 pts/1    00:00:00 grep --color=auto jenkins
 
 # copy private key for jenkins authentication credentials. user: root and password: PRIVATE KEY
 
-# Create a pipeline
-
-http://13.211.104.166:8080/github-webhook/
+# Create a pipeline and set the webhook:
 https://jenkins-master.dev.devopstech24.click/github-webhook/
-...
+
 
 
 

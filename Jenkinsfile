@@ -17,8 +17,8 @@ pipeline {
         }
         stage ('Git Checkout') {
             steps{
-                echo 'mvn --version'
-                echo 'java --version'
+                sh 'mvn --version'
+                sh 'java --version'
             }  
         }
     }
