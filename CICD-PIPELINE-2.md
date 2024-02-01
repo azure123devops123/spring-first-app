@@ -162,9 +162,18 @@ root        5286    5094  0 16:09 pts/1    00:00:00 grep --color=auto jenkins
 https://jenkins-master.dev.devopstech24.click/github-webhook/
 
 
+# install sonarqube using docker compose
+https://docs.sonarsource.com/sonarqube/latest/setup-and-upgrade/install-the-server/installing-sonarqube-from-docker/
 
+# Port 5432 for (postgres) and Port 9000 for (sonarqube) must be open on EC2
+sonarqube.dev.devopstech24.click -> 13.211.104.166
 
+# kernel tuning for sonarqube:
+root@Jenkins-Master:~/sonarqube# sudo sysctl -w vm.max_map_count=262144        // you will notice the output:   vm.max_map_count = 262144
 
+root@Jenkins-Master:~/sonarqube# docker compose up -d
 
-
+Generate Tokens: 
+Name: sonarqube-token
+Token: sqa_0c6bddfb9f996f09f8cd7dabd2914386c9399b11
 

@@ -7,7 +7,7 @@ pipeline {
         jdk 'jdk17'
     }
     // environment{
-
+    //     sonar = tool 'SonarScanner'
     // }
     stages{
         stage ('Workspace Cleanup') {
@@ -28,11 +28,18 @@ pipeline {
                 sh 'mvn clean compile'
             }
         } 
-        stage ('Code Test') {
+        stage ('Code Unit Test') {
             steps {
                 sh 'mvn test -DskipTests=True'
             }
-        }    
+        }
+        stage('SonarQube Code Analysis') {
+                withSonarQubeEnv('SonarScanner') {
+                    sh 'mvn clean verify sonar:sonar'
+                }
+        }
     }
 
 }
+
+withSonarQubeEnv(credentialsId: 'sonar-cred') {
