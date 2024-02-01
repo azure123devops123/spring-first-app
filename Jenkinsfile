@@ -37,8 +37,8 @@ pipeline {
         stage('SonarQube Code Analysis') {
             steps {
                 withSonarQubeEnv('SonarScanner') {
-                    sh "${SCANNER_HOME}/bin/sonar-scanner"
-                    //sh 'mvn clean verify sonar:sonar'
+                    // sh "${SCANNER_HOME}/bin/sonar-scanner"
+                    sh 'mvn clean verify SonarScanner:SonarScanner'
                 }
             }
         }
