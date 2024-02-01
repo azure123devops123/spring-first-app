@@ -207,7 +207,7 @@ server {
     server_name  demo.devopstech24.click;
 
     location / {
-        proxy_pass   http://3.104.121.138:8080;
+        proxy_pass   http://52.63.72.64:8080;
     }
 }    
 
