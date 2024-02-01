@@ -11,18 +11,22 @@ pipeline {
     // }
     stages{
         stage ('Workspace Cleanup') {
-            steps{
+            steps {
                 cleanWs()
             }  
         }
         stage ('Git Checkout') {
-            steps{
+            steps {
                 sh 'mvn --version'
                 sh 'java --version'
                 git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/azure123devops123/spring-first-app'
                 sh 'ls'
             }  
         }
+        stage ('Code Compile') {
+            steps {
+                sh 'mvn clean compile'
+            }
     }
 
 }
