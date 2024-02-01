@@ -34,9 +34,11 @@ pipeline {
             }
         }
         stage('SonarQube Code Analysis') {
+            steps {
                 withSonarQubeEnv('SonarScanner') {
                     sh 'mvn clean verify sonar:sonar'
                 }
+            }
         }
     }
 
