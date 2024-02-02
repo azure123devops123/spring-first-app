@@ -16,6 +16,7 @@ pipeline {
                 cleanWs()
             }  
         }
+
         stage ('Git Checkout') {
             steps {
                 sh 'mvn --version'
@@ -24,22 +25,23 @@ pipeline {
                 sh 'ls'
             }  
         }
+
         stage ('Code Compile') {
             steps {
                 sh 'mvn clean compile'
             }
-        } 
+        }
+
         stage ('Code Unit Test') {
             steps {
                 sh 'mvn test -DskipTests=True'
             }
         }
+        
         stage('SonarQube Code Analysis') {
             steps {
-                withSonarQubeEnv('SonarScanner') {
-                    // sh "${SCANNER_HOME}/bin/sonar-scanner"
-                    // sh 'mvn clean verify SonarScanner:SonarScanner'
-                    sh 'mvn clean verify sonar:sonar'
+                withSonarQubeEnv('SonarScanner') {      // Pass only server name as an argument
+                    sh 'mvn clean verify sonar:sonar'   // Analyzing a Maven project consists of running a Maven goal: sonar:sonar from the directory that holds the main project pom.xml
                 }
             }
         }

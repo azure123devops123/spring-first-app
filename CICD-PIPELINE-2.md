@@ -168,13 +168,13 @@ https://docs.sonarsource.com/sonarqube/latest/setup-and-upgrade/install-the-serv
 # Port 5432 for (postgres) and Port 9000 for (sonarqube) must be open on EC2
 sonarqube.dev.devopstech24.click -> 13.211.104.166
 
-# kernel tuning for sonarqube:
+# Required Always: Kernel tuning for sonarqube:
 root@Jenkins-Master:~/sonarqube# sudo sysctl -w vm.max_map_count=262144        // you will notice the output:   vm.max_map_count = 262144
 
+# Always run these two sonarqube and postgres containers after restart:
 root@Jenkins-Master:~/sonarqube# docker compose up -d
 
 Generate Tokens: 
 Name: sonarqube-token
 Token: sqa_0c6bddfb9f996f09f8cd7dabd2914386c9399b11
 
----
