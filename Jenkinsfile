@@ -5,6 +5,7 @@ pipeline {
     tools{
         maven 'mvn3'
         jdk 'jdk17'
+        odcInstallation 'DC'
     }
     // environment {
     //     SCANNER_HOME = tool 'SonarScanner'        // we define this tool and we can use it below.
