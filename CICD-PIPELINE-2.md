@@ -189,6 +189,21 @@ Token: sqa_0c6bddfb9f996f09f8cd7dabd2914386c9399b11
 
 # In System section set the sonarqube server. This server name we can pass on in our pipeline.
 
-======================================================= owasp (Open Worldwide Application Security Project)  =======================================================================
+======================================================= OWASP (Open Worldwide Application Security Project)  =========================================================
 # install plugin: 'OWASP Dependency-Check'
-# Configure using option Install automatically by 'Install from github.com' and version '6.5.1'
+# Configure using option Install automatically by 'Install from github.com' and version '6.5.1' otherwise we will get error.
+
+======================================================= Docker  =========================================================
+
+# docker credentials  to connect with docker hub
+
+# install following docker related plugins:
+DockerVersion
+Docker Pipeline
+docker-build-step
+
+# Configure Docker Tool using option Install automatically by 'Download from docker.com' and latest version.
+
+
+
+

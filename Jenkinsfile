@@ -5,6 +5,7 @@ pipeline {
     tools{
         maven 'mvn3'
         jdk 'jdk17'
+        docker 'docker24'
     }
     // environment {
     //     SCANNER_HOME = tool 'SonarScanner'        // we define this tool and we can use it below.
@@ -20,6 +21,7 @@ pipeline {
             steps {
                 sh 'mvn --version'
                 sh 'java --version'
+                sh 'docker --version'
                 git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/azure123devops123/spring-first-app'
                 sh 'ls'
             }  
@@ -45,9 +47,9 @@ pipeline {
             }
         }
 
-        stage('OWASP Dependancy Check') {   // It will take 5 to 10 minutes when we run for the first time because it will download the National Vulnerability Database (NVD) from 2002 to onwards
+        stage('OWASP Dependencies Check') {   // It will take 5 to 10 minutes when we run for the first time because it will download the National Vulnerability Database (NVD) from 2002 to onwards
             steps {
-                // dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'
+                // dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'          // WE CAN USE THIS ONE LINER CODE AND IT WILL WORK FINE BUT BELOW CODE IS GENRATED BY Snippet Generator.
                 dependencyCheck additionalArguments: '''--project	spring-first-app-jenkins-ci-pipeline
                 --scan	./
                 --format	XML''', odcInstallation: 'DC'
