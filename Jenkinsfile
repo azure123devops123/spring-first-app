@@ -47,8 +47,11 @@ pipeline {
 
         stage('OWASP Dependancy Check') {   // It will take 5 to 10 minutes when we run for the first time because it will download the National Vulnerability Database (NVD) from 2002 to onwards
             steps {
-                dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'
-                dependencyCheckPublisher(pattern: 'dependencyCheckPublisher pattern: '**/dependency-check-report.xml'')
+                // dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'
+                dependencyCheck additionalArguments: '''--project	spring-first-app-jenkins-ci-pipeline
+                --scan	./
+                --format	XML''', odcInstallation: 'DC'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
 
