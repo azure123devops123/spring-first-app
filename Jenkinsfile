@@ -5,7 +5,6 @@ pipeline {
     tools{
         maven 'mvn3'
         jdk 'jdk17'
-        odcInstallation 'DC'
     }
     // environment {
     //     SCANNER_HOME = tool 'SonarScanner'        // we define this tool and we can use it below.
@@ -38,14 +37,13 @@ pipeline {
             }
         }
 
-        stage('SonarQube Code Analysis') {
-            steps {
-                withSonarQubeEnv('SonarScanner') {      // Pass only server name as an argument
-                    sh 'mvn clean verify sonar:sonar'   // Analyzing a Maven project consists of running a Maven goal: sonar:sonar from the directory that holds the main project pom.xml
-                }
-            }
-        }
-
+        // stage('SonarQube Code Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SonarScanner') {      // Pass only server name as an argument
+        //             sh 'mvn clean verify sonar:sonar'   // Analyzing a Maven project consists of running a Maven goal: sonar:sonar from the directory that holds the main project pom.xml
+        //         }
+        //     }
+        // }
         stage('OWASP Dependancy ChecK') {
             steps {
                 dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'
