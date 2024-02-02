@@ -7,9 +7,16 @@ pipeline {
         jdk 'jdk17'
         // docker 'docker24'            // we do not have to mention this in tools otherwise we will get error
     }
-    // environment {
-    //     SCANNER_HOME = tool 'SonarScanner'        // we define this tool and we can use it below.
-    // }
+    environment {
+        // SCANNER_HOME = tool 'SonarScanner'        // we define this tool and we can use it below.
+        DOCKERHUB_USERNAME = "devopstech24"
+        APPLICATION_NAME = "spring-first-app-jenkins-ci-pipeline"
+        IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APPLICATION_NAME}"
+
+        RELEASE = "1.0.0"
+        IMAGE_TAG = "${RELEASE}" + "-" + "${env.BUILD_NUMBER}"
+
+    }
     stages {
         stage ('Workspace Cleanup') {
             steps {
@@ -39,7 +46,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Code Analysis') {
+        stage ('SonarQube Code Analysis') {
             steps {
                 withSonarQubeEnv('SonarScanner') {      // Pass only server name as an argument
                     sh 'mvn clean verify sonar:sonar'   // Analyzing a Maven project consists of running a Maven goal: sonar:sonar from the directory that holds the main project pom.xml
@@ -47,13 +54,23 @@ pipeline {
             }
         }
 
-        stage('OWASP Dependencies Check') {   // It will take 5 to 10 minutes when we run for the first time because it will download the National Vulnerability Database (NVD) from 2002 to onwards
+        stage ('OWASP Dependencies Check') {   // It will take 5 to 10 minutes when we run for the first time because it will download the National Vulnerability Database (NVD) from 2002 to onwards
             steps {
                 // dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'          // WE CAN USE THIS ONE LINER CODE AND IT WILL WORK FINE BUT BELOW CODE IS GENRATED BY Snippet Generator.
                 dependencyCheck additionalArguments: '''--project	spring-first-app-jenkins-ci-pipeline
                 --scan	./
                 --format	XML''', odcInstallation: 'DC'
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+
+        stage ('Build Docker Image') {
+            steps {
+                script {                // Groovy Script for Building Docker Image
+                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
+                       dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                    }
+                }
             }
         }
 
