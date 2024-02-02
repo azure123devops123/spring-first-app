@@ -6,10 +6,10 @@ pipeline {
         maven 'mvn3'
         jdk 'jdk17'
     }
-    environment {
-        SCANNER_HOME = tool 'SonarScanner'        // we define this tool and we can use it below.
-        //sonar = tool 'SonarScanner'
-    }
+    // environment {
+    //     SCANNER_HOME = tool 'SonarScanner'        // we define this tool and we can use it below.
+    //     //sonar = tool 'SonarScanner'
+    // }
     stages{
         stage ('Workspace Cleanup') {
             steps {
@@ -38,7 +38,8 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarScanner') {
                     // sh "${SCANNER_HOME}/bin/sonar-scanner"
-                    sh 'mvn clean verify SonarScanner:SonarScanner'
+                    // sh 'mvn clean verify SonarScanner:SonarScanner'
+                    sh 'mvn clean verify sonar:sonar'
                 }
             }
         }
