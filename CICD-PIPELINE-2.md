@@ -207,6 +207,9 @@ docker-build-step
 # Write the groovy script to build docker image
 
 ======================================================= Trivy Scan  =========================================================
-# Trivy Scan 
+# Install Trivy using Install Script - > https://aquasecurity.github.io/trivy/v0.18.3/installation/#install-script
+
+# scan the image and get the output into an xml formate.
+
 
 
