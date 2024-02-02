@@ -93,6 +93,19 @@ pipeline {
             }
         }
 
+        stage ('Docker Scout Image Scan') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
+                       // Install Docker Scout
+                       sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
+                       // Analyze and fail on critical or high vulnerabilities
+                       sh 'docker-scout cves ${IMAGE_NAME}:${IMAGE_TAG} --exit-code --only-severity critical'
+                    }
+                }
+            }
+        }
+
     }
 
 }
