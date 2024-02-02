@@ -47,10 +47,17 @@ pipeline {
 
         stage('OWASP Dependancy Check') {
             steps {
-                dependencyCheck additionalArguments: '--scan ./ --format	scan-result.xml'
+                dependencyCheck additionalArguments: '''--scan ./ --format	XML''', odcInstallation: 'DC'
             }
         }
-        
+
     }
 
 }
+
+// stage('OWASP Dependency Check') {
+        //     steps {
+        //         dependencyCheck additionalArguments: ' --scan ./', odcInstallation: 'DC'
+        //         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+        //     }
+        // }
