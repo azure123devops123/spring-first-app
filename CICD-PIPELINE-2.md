@@ -183,6 +183,7 @@ https://sonarqube.dev.devopstech24.click
 
 
 Generate Token on Sonarqube for Sonarqube Authentication from JENKINS PIPELINE: 
+
 Name: sonarqube-token
 Token: sqa_0c6bddfb9f996f09f8cd7dabd2914386c9399b11
 
@@ -190,4 +191,4 @@ Token: sqa_0c6bddfb9f996f09f8cd7dabd2914386c9399b11
 
 ======================================================= owasp (Open Worldwide Application Security Project)  =======================================================================
 # install plugin: 'OWASP Dependency-Check'
-#
+# Configure using option Install automatically by 'Install from github.com' and version '6.5.1'
