@@ -161,12 +161,11 @@ root        5286    5094  0 16:09 pts/1    00:00:00 grep --color=auto jenkins
 # Create a pipeline and set the webhook:
 https://jenkins-master.dev.devopstech24.click/github-webhook/
 
-
-# install sonarqube using docker compose
+======================================================= SONARQUBE SERVER =======================================================================
+# We are using sonarqube:lts-community in our Docker Compose .yml file
 https://docs.sonarsource.com/sonarqube/latest/setup-and-upgrade/install-the-server/installing-sonarqube-from-docker/
 
-# Port 5432 for (postgres) and Port 9000 for (sonarqube) must be open on EC2
-sonarqube.dev.devopstech24.click -> 13.211.104.166
+# Install 'SonarQube Scanner' Plugin
 
 # Required Always: Kernel tuning for sonarqube:
 root@Jenkins-Master:~/sonarqube# sudo sysctl -w vm.max_map_count=262144        // you will notice the output:   vm.max_map_count = 262144
@@ -174,7 +173,21 @@ root@Jenkins-Master:~/sonarqube# sudo sysctl -w vm.max_map_count=262144        /
 # Always run these two sonarqube and postgres containers after restart:
 root@Jenkins-Master:~/sonarqube# docker compose up -d
 
-Generate Tokens: 
+# Port 5432 for (postgres) and Port 9000 for (sonarqube) must be open on EC2
+# Set DNS - A record in the AWS Route 53 pointing to a Subdomain => sonarqube.dev.devopstech24.click
+Check the propagation => https://www.whatsmydns.net
+sonarqube.dev.devopstech24.click -> 13.211.104.166
+
+# check in browser: default username and password is admin, admin
+https://sonarqube.dev.devopstech24.click
+
+
+Generate Token on Sonarqube for Sonarqube Authentication from JENKINS PIPELINE: 
 Name: sonarqube-token
 Token: sqa_0c6bddfb9f996f09f8cd7dabd2914386c9399b11
 
+# In System section set the sonarqube server. This server name we can pass on in our pipeline.
+
+======================================================= owasp (Open Worldwide Application Security Project)  =======================================================================
+# install plugin: 'OWASP Dependency-Check'
+#

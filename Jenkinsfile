@@ -44,6 +44,13 @@ pipeline {
                 }
             }
         }
+
+        stage('OWASP Dependancy Check') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --format	scan-result.xml'
+            }
+        }
+        
     }
 
 }
