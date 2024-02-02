@@ -204,6 +204,9 @@ docker-build-step
 
 # Configure Docker Tool using option Install automatically by 'Download from docker.com' and latest version.
 
+# Write the groovy script to build docker image
 
+======================================================= Trivy Scan  =========================================================
+# Trivy Scan 
 
 

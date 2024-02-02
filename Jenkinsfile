@@ -74,6 +74,14 @@ pipeline {
             }
         }
 
+        stage ('Trivy Scaning Docker Image') {
+            steps {
+                // Install Trivy using Install Script - > https://aquasecurity.github.io/trivy/v0.18.3/installation/#install-script
+                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.18.3'
+                sh 'trivy image dockerImage > trivy-report.xml'
+                }
+            }
+
     }
 
 }
