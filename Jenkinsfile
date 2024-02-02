@@ -1,16 +1,16 @@
 pipeline {
-    agent{
+    agent {
         label 'dev'
     }
-    tools{
+    tools {
         maven 'mvn3'
         jdk 'jdk17'
-        docker 'docker24'
+        // docker 'docker24'            // we do not have to mention this in tools otherwise we will get error
     }
     // environment {
     //     SCANNER_HOME = tool 'SonarScanner'        // we define this tool and we can use it below.
     // }
-    stages{
+    stages {
         stage ('Workspace Cleanup') {
             steps {
                 cleanWs()
