@@ -83,12 +83,14 @@ pipeline {
         }
 
         stage ('Push to Docker Image Registry') {
-                script {                // Groovy Script for Building Docker Image
+            steps {
+                script {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
                        dockerImage.push()
                        dockerImage.push('latest')
                     }
                 }
+            }
         }
 
     }
