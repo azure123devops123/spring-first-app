@@ -8,7 +8,6 @@ pipeline {
     }
     // environment {
     //     SCANNER_HOME = tool 'SonarScanner'        // we define this tool and we can use it below.
-    //     //sonar = tool 'SonarScanner'
     // }
     stages{
         stage ('Workspace Cleanup') {
@@ -28,16 +27,16 @@ pipeline {
 
         stage ('Code Compile') {
             steps {
-                sh 'mvn clean compile'
+                sh 'mvn clean compile'      // code compile 
             }
         }
 
         stage ('Code Unit Test') {
             steps {
-                sh 'mvn test -DskipTests=True'
+                sh 'mvn test -DskipTests=True'  // skip tests but not in production :)
             }
         }
-        
+
         stage('SonarQube Code Analysis') {
             steps {
                 withSonarQubeEnv('SonarScanner') {      // Pass only server name as an argument
