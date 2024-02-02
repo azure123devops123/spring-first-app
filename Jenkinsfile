@@ -46,5 +46,3 @@ pipeline {
     }
 
 }
-
-withSonarQubeEnv(credentialsId: 'sonar-cred') {
