@@ -122,11 +122,11 @@ pipeline {
               script {
                 sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'  // Remove Current Tagged Image
                 sh 'docker rmi ${IMAGE_NAME}:latest'  // Remove latest Tagged Image
-                sh 'docker image prune --force' // Remove dangling images without prompt for confirmation
+                sh 'docker image prune --all --force' // Remove all dangling images without prompt for confirmation
               }
             }
         }
-        
+
     } // end of stages
 
     post {
