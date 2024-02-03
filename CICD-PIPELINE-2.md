@@ -230,3 +230,5 @@ Manage Jenkins => Credentials => JENKINS_API_TOKEN
 =======
 jenkins-master.dev.devopstech24.click
 sonarqube.dev.devopstech24.click
+
+https://medium.com/@madhan97.sms/a-step-by-step-guide-to-configuring-smtp-in-jenkins-with-gmail-ea79eb3aaefc
