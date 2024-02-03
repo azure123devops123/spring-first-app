@@ -127,7 +127,7 @@ pipeline {
             }
         }
 
-    } // end of stages
+    } // end of stages section
 
     post {
         failure {
