@@ -211,5 +211,11 @@ docker-build-step
 
 # scan the image and get the output into an xml formate.
 
+======================================================= Docker Push Image  =========================================================
+# After trivy scan push the docker image to docker hub.
+
+# URLS:
+jenkins-master.dev.devopstech24.click
+sonarqube.dev.devopstech24.click
 
 

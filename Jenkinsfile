@@ -93,10 +93,10 @@ pipeline {
             }
         }
 
-        stage ('Docker Scout Image Scan') {
+        stage ('Analyze Image - Docker Scout Image Scanner') {
             steps {
-                // Install Docker Scout
-                sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
+              // Install Docker Scout inside Container
+              sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
 
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
