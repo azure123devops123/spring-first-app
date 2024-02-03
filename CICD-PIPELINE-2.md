@@ -211,11 +211,22 @@ docker-build-step
 
 # scan the image and get the output into an xml formate.
 
-======================================================= Docker Push Image  =========================================================
+======================================================= Docker Push Image / Docker Scout Scan  =========================================================
 # After trivy scan push the docker image to docker hub.
 
-# URLS:
+# After pushing the image you can also scan using docker scout -> https://github.com/docker/scout-cli?tab=readme-ov-file#ci-integration
+
+=======================================================  Account Token / trigger pipeline =====================================================
+
+
+# Create account token:
+Muhammad Jabir (Account) => Configure => API Token => JENKINS_API_TOKEN => 1163ab5aef147103ea675c81c298546f3a
+
+# Create Credentials:
+Manage Jenkins => Credentials => JENKINS_API_TOKEN   
+
+
+
+=======
 jenkins-master.dev.devopstech24.click
 sonarqube.dev.devopstech24.click
-
-

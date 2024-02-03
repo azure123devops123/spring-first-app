@@ -16,6 +16,8 @@ pipeline {
         RELEASE = "1.0.0"
         IMAGE_TAG = "${RELEASE}" + "-" + "${env.BUILD_NUMBER}"
 
+        JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")            // make sure it must be correct
+
     }
     stages {
         stage ('Workspace Cleanup') {
@@ -74,7 +76,7 @@ pipeline {
             }
         }
 
-        stage ('Trivy Scaning Docker Image') {
+        stage ('Analyze Image using Trivy Image Scanner') {
             steps {
                 // Install Trivy using Install Script - > https://aquasecurity.github.io/trivy/v0.18.3/installation/#install-script
                 sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.18.3'
@@ -93,9 +95,9 @@ pipeline {
             }
         }
 
-        stage ('Analyze Image - Docker Scout Image Scanner') {
+        stage ('Analyze Image using Docker Scout Image Scanner') {
             steps {
-              // Install Docker Scout inside Container
+              // Install Docker Scout using curl - Note make sure its inside the steps and before the Groovy script with the correct alignment.
               sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
 
                 script {
@@ -103,6 +105,14 @@ pipeline {
                        // Analyze and fail on critical or high vulnerabilities
                        sh 'docker-scout cves ${IMAGE_NAME}:${IMAGE_TAG} --exit-code --only-severity critical'
                     }
+                }
+            }
+        }
+
+        stage ('Trigger Continuous Delivery Pipeline') {
+            steps {
+                script {
+                    sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'https://jenkins-master.dev.devopstech24.click/job/gitops-cd-pipeline/buildWithParameters?token=gitops-token'"
                 }
             }
         }
