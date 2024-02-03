@@ -227,7 +227,7 @@ Manage Jenkins => Credentials => JENKINS_API_TOKEN
 
 
 
-=======
+=============================================================
 jenkins-master.dev.devopstech24.click
 sonarqube.dev.devopstech24.click
 
