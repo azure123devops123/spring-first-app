@@ -7,7 +7,7 @@ pipeline {
     agent {
         label 'dev'
     }
-    too {
+    tools {
         maven 'mvn3'
         jdk 'jdk17'
         // docker 'docker24'            // we do not have to mention this in tools otherwise we will get error
