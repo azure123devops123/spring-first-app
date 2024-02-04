@@ -218,12 +218,25 @@ docker-build-step
 
 =======================================================  Account Token / trigger pipeline =====================================================
 
-
 # Create account token:
 Muhammad Jabir (Account) => Configure => API Token => JENKINS_API_TOKEN => 1163ab5aef147103ea675c81c298546f3a
 
 # Create Credentials:
 Manage Jenkins => Credentials => JENKINS_API_TOKEN   
+
+=======================================================  SLACK INTEGRATION =====================================================
+# Create an account in Slack => https://slack.com/
+# Add Jenkins ci APP for Slack
+
+# Slack Credentials using Token.
+
+Team subdomain: devopsleadworkspace
+Integration token credential ID: Create a secret text credential using 2XH4jnfrv4OYNRPYkxT62ST8 as the value.
+# Install Slack plugins called 'slack notification' in Jenkins
+
+# Now configure and test in System Section of Jenkins Master.
+
+#
 
 
 

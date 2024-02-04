@@ -1,3 +1,8 @@
+def COLOR_MAP = [
+    'FAILURE' : 'danger',
+    'SUCCESS' : 'good'
+]
+
 pipeline {
     agent {
         label 'dev'
@@ -128,18 +133,14 @@ pipeline {
         }
 
     } // end of stages section
-
     post {
-        failure {
-            emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
-                    subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Failed", 
-                    mimeType: 'text/html',to: "azure123.devops123@gmail.com"
-            }
-         success {
-               emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
-                    subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful", 
-                    mimeType: 'text/html',to: "azure123.devops123@gmail.com"
-          }      
+        always {
+            echo 'Slack Notifications'
+            slackSend (
+                channel: '#spring-application',   #change your channel name
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} \n build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+            )
+        }
     }
-
 }
