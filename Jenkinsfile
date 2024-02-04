@@ -34,7 +34,7 @@ pipeline {
 
         stage ('Git Checkout') {
             steps {
-                 'mvn --version'
+                sh 'mvn --version'
                 sh 'java --version'
                 sh 'docker --version'
                 git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/azure123devops123/spring-first-app'
