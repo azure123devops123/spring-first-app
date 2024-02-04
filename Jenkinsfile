@@ -1,12 +1,12 @@
-// def COLOR_MAP = [
-//     'FAILURE' : 'danger',
-//     'SUCCESS' : 'good'
-// ]
 def COLOR_MAP = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
 
 pipeline {
     agent {
         label 'dev'
+    }
+    triggers {
+        cron('35 2 * * *')
+        // cron('H 4/* 0 0 1-5')
     }
     tools {
         maven 'mvn3'
