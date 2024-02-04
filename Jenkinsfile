@@ -5,7 +5,7 @@ pipeline {
         label 'dev'
     }
     triggers {
-        cron('35 2 * * *')
+        cron('42 2 5 * *')
         // cron('H 4/* 0 0 1-5')
     }
     tools {
