@@ -10,7 +10,7 @@ pipeline {
     }
     tools {
         maven 'mvn3'
-        jdk 'jdk17
+        jdk 'jdk17'
         // docker 'docker24'            // we do not have to mention this in tools otherwise we will get error
     }
     environment {
