@@ -4,13 +4,13 @@ pipeline {
     agent {
         label 'dev'
     }
-    triggers {
-        cron('42 2 5 * *')
-        // cron('H 4/* 0 0 1-5')
-    }
+    // triggers {
+    //     cron('42 2 5 * *')
+    //     // cron('H 4/* 0 0 1-5')
+    // }
     tools {
         maven 'mvn3'
-        jdk 'jdk17'
+        jdk 'jdk17
         // docker 'docker24'            // we do not have to mention this in tools otherwise we will get error
     }
     environment {
