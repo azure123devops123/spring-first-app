@@ -7,7 +7,7 @@ pipeline {
     agent {
         label 'dev'
     }
-    tools {
+    too {
         maven 'mvn3'
         jdk 'jdk17'
         // docker 'docker24'            // we do not have to mention this in tools otherwise we will get error
@@ -137,7 +137,7 @@ pipeline {
         always {
             echo 'Slack Notifications'
             slackSend (
-                channel: '#spring-application',   #change your channel name
+                channel: '#spring-application',   // change your channel name
                 color: COLOR_MAP[currentBuild.currentResult],
                 message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} \n build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
             )
