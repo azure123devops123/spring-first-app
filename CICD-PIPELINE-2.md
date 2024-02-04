@@ -236,9 +236,11 @@ Integration token credential ID: Create a secret text credential using 2XH4jnfrv
 
 # Now configure and test in System Section of Jenkins Master.
 
-#
+# write the configration in jenkins file.   
 
-
+# HELP FROM:
+https://www.youtube.com/watch?v=9ZUy3oHNgh8
+https://mrcloudbook.hashnode.dev/a-guide-to-integrating-slack-with-jenkins
 
 =============================================================
 jenkins-master.dev.devopstech24.click
