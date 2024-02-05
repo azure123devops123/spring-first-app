@@ -4,10 +4,10 @@ pipeline {
     agent {
         label 'dev'
     }
-    triggers {
-        cron('2 3 * * *')
-        // cron('H 4/* 0 0 1-5')
-    }
+    // triggers {
+    //     cron('2 3 * * *')
+    //     // cron('H 4/* 0 0 1-5')
+    // }
     tools {
         maven 'mvn3'
         jdk 'jdk17'
@@ -62,6 +62,14 @@ pipeline {
             }
         }
 
+        // stage("Quality Gate") {
+        //     steps {
+        //         script {
+        //             waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-token'
+        //         }
+        //     }
+        // }
+
         stage ('OWASP Dependencies Check') {   // It will take 5 to 10 minutes when we run for the first time because it will download the National Vulnerability Database (NVD) from 2002 to onwards
             steps {
                 // dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'          // WE CAN USE THIS ONE LINER CODE AND IT WILL WORK FINE BUT BELOW CODE IS GENRATED BY Snippet Generator.
@@ -115,10 +123,18 @@ pipeline {
             }
         }
 
-        stage ('Trigger Continuous Delivery Pipeline') {
+        // stage ('Trigger Continuous Delivery Pipeline') {
+        //     steps {
+        //         script {
+        //             sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'https://jenkins-master.dev.devopstech24.click/job/gitops-cd-pipeline/buildWithParameters?token=gitops-token'"
+        //         }
+        //     }
+        // }
+
+        stage ('Docker Container Deeployment') {
             steps {
                 script {
-                    sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'https://jenkins-master.dev.devopstech24.click/job/gitops-cd-pipeline/buildWithParameters?token=gitops-token'"
+                    sh 'docker run ${IMAGE_NAME}:${IMAGE_TAG} -p 8089:8080'
                 }
             }
         }

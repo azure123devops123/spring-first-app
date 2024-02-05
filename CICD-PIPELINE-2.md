@@ -226,12 +226,14 @@ Manage Jenkins => Credentials => JENKINS_API_TOKEN
 
 =======================================================  SLACK INTEGRATION =====================================================
 # Create an account in Slack => https://slack.com/
-# Add Jenkins ci APP for Slack
-
-# Slack Credentials using Token.
-
+# Add Jenkins CI APP for Slack: (WE HAVE TO REPEAT THIS PROCESS EVERY TIME WE CREATE A NEW CHANNEL)
+Inside your Account go into => Settings & administrator => Manage apps => Search for 'Jenkins CI' => CHOOSE YOUR CHANNEL => Add Jenkins CI Integration
+it will spit the details which you can use for credentials and into System section.
+like for example:
 Team subdomain: devopsleadworkspace
 Integration token credential ID: Create a secret text credential using 2XH4jnfrv4OYNRPYkxT62ST8 as the value.
+# Slack Credentials using Token.
+
 # Install Slack plugins called 'slack notification' in Jenkins
 
 # Now configure and test in System Section of Jenkins Master.
@@ -247,3 +249,53 @@ jenkins-master.dev.devopstech24.click
 sonarqube.dev.devopstech24.click
 
 https://medium.com/@madhan97.sms/a-step-by-step-guide-to-configuring-smtp-in-jenkins-with-gmail-ea79eb3aaefc
+
+=======================================================  Minikube Installation ou your laptop =====================================================
+
+INSTALL MINIKUBE (all commands): => https://minikube.sigs.k8s.io/docs/start/
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
+sudo install minikube-darwin-amd64 /usr/local/bin/minikube
+
+START YOU DOCKER DESKTOP
+minikube status
+minikube start
+minikube status
+minikube          // we must have following output.
+            type: Control Plane
+            host: Running
+            kubelet: Running
+            apiserver: Running
+            kubeconfig: Configured
+
+kubectl get po -A  
+OR   
+kubectl get pods -n kube-system          
+
+=======================================================  Argocd on minikube on macos apple =====================================================
+
+Install ArgoCD: => https://apexlemons.com/devops/argocd-on-minikube-on-macos-apple-silicon-version-m1-m2/
+
+# Installation
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl get pods -n argocd
+
+# Argocd UI
+kubectl get SERVICES -n argocd                                      // NOTICE argocd-server running on HTTP and HTTPS PORTS
+kubectl port-forward -n argocd service/argocd-server 8080:443       // port forwarding so we can access it
+
+BROWSER: Check in browser:   127.0.0.1:8080        // username: admin    and password is auto generated and saves inside 'argocd-initial-admin-secret'
+
+kubectl get secret argocd-initial-admin-secret -o yaml -n argocd        // copy the password: d1llQlNVUzN2dnNRbDFPMg==
+echo ZldocEJVaHZIRllrYkpENw== | base64 --decode             //    fWhpBUhvHFYkbJD7          NOTE:- DO NOT COPY % at the end
+
+# Change the password from GUI
+New Password: pass1234
+username: admin 
+
+# Argocd Configuration:
+
+
+//
+kubectl create namespace argocd
+kubectl delete namespace argocd

@@ -3,7 +3,7 @@ version: "3.8"
 services:
   sonarqube:
     image: sonarqube:community
-    restart: unless-stopped
+    # restart: unless-stopped
     depends_on:
       - db1
     environment:
