@@ -62,13 +62,13 @@ pipeline {
             }
         }
 
-//         // stage("Quality Gate") {
-//         //     steps {
-//         //         script {
-//         //             waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-token'
-//         //         }
-//         //     }
-//         // }
+        stage("Quality Gate") {
+            steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-token'
+                }
+            }
+        }
 
 //         stage ('OWASP Dependencies Check') {   // It will take 5 to 10 minutes when we run for the first time because it will download the National Vulnerability Database (NVD) from 2002 to onwards
 //             steps {
