@@ -62,23 +62,23 @@ pipeline {
             }
         }
 
-        stage("Quality Gate") {
+        // stage("Quality Gate") {
+        //     steps {
+        //         script {
+        //             waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-token'
+        //         }
+        //     }
+        // }
+
+        stage ('OWASP Dependencies Check') {   // It will take 5 to 10 minutes when we run for the first time because it will download the National Vulnerability Database (NVD) from 2002 to onwards
             steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-token'
-                }
+                // dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'          // WE CAN USE THIS ONE LINER CODE AND IT WILL WORK FINE BUT BELOW CODE IS GENRATED BY Snippet Generator.
+                dependencyCheck additionalArguments: '''--project	java-spring-app-ci-pipeline
+                --scan	./
+                --format	XML''', odcInstallation: 'DC'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
-
-//         stage ('OWASP Dependencies Check') {   // It will take 5 to 10 minutes when we run for the first time because it will download the National Vulnerability Database (NVD) from 2002 to onwards
-//             steps {
-//                 // dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'          // WE CAN USE THIS ONE LINER CODE AND IT WILL WORK FINE BUT BELOW CODE IS GENRATED BY Snippet Generator.
-//                 dependencyCheck additionalArguments: '''--project	spring-first-app-jenkins-ci-pipeline
-//                 --scan	./
-//                 --format	XML''', odcInstallation: 'DC'
-//                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-//             }
-//         }
 
 //         stage ('Build Docker Image') {
 //             steps {
