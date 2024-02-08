@@ -208,7 +208,7 @@ https://sonarqube.dev.devopstech24.click
 Generate Token on Sonarqube for Sonarqube Authentication from JENKINS PIPELINE: 
 
 Name: sonarqube-token
-Token: sqa_0c6bddfb9f996f09f8cd7dabd2914386c9399b11
+Token: sqa_01504165a3af9a0ebf65db3b2f21ae7f96c6508f
 
 # In System section set the sonarqube server. This server name we can pass on in our pipeline.
 
