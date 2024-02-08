@@ -134,7 +134,7 @@ pipeline {
         stage ('Docker Container Deeployment') {
             steps {
                 script {
-                    sh 'docker run ${IMAGE_NAME}:${IMAGE_TAG} -p 8089:8080'
+                    sh "docker run ${IMAGE_NAME}:${IMAGE_TAG} -p 8089:8080"
                 }
             }
         }
