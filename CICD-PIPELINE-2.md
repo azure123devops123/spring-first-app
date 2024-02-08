@@ -227,6 +227,8 @@ docker-build-step
 
 # Configure Docker Tool using option Install automatically by 'Download from docker.com' and latest version.
 
+# make sure you install docker and docker-compose on the slave node. otherwise you will get an error.
+
 # Write the groovy script to build docker image
 
 ======================================================= Trivy Scan  =========================================================
