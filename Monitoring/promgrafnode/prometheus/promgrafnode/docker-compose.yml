@@ -1,0 +1,94 @@
+version: '3.8'
+
+networks: 
+  monitoring: 
+    driver: bridge
+
+volumes: 
+  prometheus_data: {}
+
+services:
+# node-exporter container (The node exporter enables you to measure various machine resources such as memory, disk and CPU utilization)
+  node-exporter: 
+    image: prom/node-exporter:latest 
+    container_name: node-exporter 
+    restart: unless-stopped 
+    volumes: 
+      - /proc:/host/proc:ro 
+      - /sys:/host/sys:ro 
+      - /:/rootfs:ro 
+    command: 
+      - '--path.procfs=/host/proc' 
+      - '--path.rootfs=/rootfs' 
+      - '--path.sysfs=/host/sys' 
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)' 
+    ports: 
+      - 9100:9100 
+    networks: 
+      - monitoring
+
+# prometheus container (Prometheus is an open-source technology designed to provide monitoring and alerting functionality for cloud-native environments, including Kubernetes. It can collect and store metrics as time-series data, recording information with a timestamp.)
+  prometheus: 
+    image: prom/prometheus:latest 
+    user: "1001" 
+    environment: 
+      - PUID=1001 
+      - PGID=1001 
+    container_name: prometheus 
+    restart: unless-stopped 
+    volumes: 
+      - ~/promgrafnode/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml 
+      - ~/promgrafnode/prometheus:/prometheus 
+    command: 
+      - '--config.file=/etc/prometheus/prometheus.yml' 
+      - '--storage.tsdb.path=/prometheus' 
+      - '--web.console.libraries=/etc/prometheus/console_libraries' 
+      - '--web.console.templates=/etc/prometheus/consoles' 
+      - '--web.enable-lifecycle' 
+    ports: 
+      - 9090:9090 
+    networks: 
+      - monitoring
+
+  # grafana container (Grafana is a multi-platform open source analytics and interactive visualization web application. It provides charts, graphs, and alerts for the web when connected to supported data sources)    
+  grafana: 
+    image: grafana/grafana:latest 
+    user: "1001" 
+    container_name: grafana 
+    ports: 
+      - 3000:3000 
+    restart: unless-stopped 
+    volumes: 
+      - ~/promgrafnode/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources 
+      - ~/promgrafnode/grafana:/var/lib/grafana 
+    networks: 
+      - monitoring
+
+  # cadvisor container (It is an increasingly common practice to use cAdvisor with Prometheus to monitor containerized services)
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    # user: "1001"
+    # environment: 
+    #   - PUID=1001 
+    #   - PGID=1001
+    container_name: cadvisor
+    ports:
+      - 8080:8080
+    networks:
+      - monitoring
+    volumes: 
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro 
+      - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+      - redis
+
+  # redis container (Redis is an open-source in-memory storage, used as a distributed, in-memory key–value database, cache and message broker, with optional durability)
+  redis: 
+    image: redis:latest 
+    container_name: redis 
+    ports: 
+      - 6379:6379 
+    networks: 
+      - monitoring

@@ -9,25 +9,43 @@ Key pair: jabir-practice
 ===============================================================================
 1) SERVER LAUNCH
 2) ELASTIC IP
-3) CHANGE SERVER HOSTNAME
-    hostnamectl set-hostname JENKINS-MASTER
-    /bin/bash                               // root@JENKINS-MASTER:/home/ubuntu# 
-4) INSTALL JAVA RUNTIME
-    0  sudo su
-    1  apt update
-    2  java --version     // java not installed 
-    3  apt install openjdk-17-jre
-    4  apt upgrade
-    5  java --version     // java installed
+3) Create a non root user with sudo privileges:
+
+sudo su         // root user
+lsb_release -a                       // Ubuntu 22.04.3 LTS
+
+adduser linuxadmin                   // create a user    (PASSWORD: pass1234)
+usermod -aG sudo linuxadmin          // add this user to sudo group
+
+exit             // exit from root user
+su - linuxadmin  // login as a not root user who got sudo privileges.
+
+# Update and Upgrade System:
+sudo apt update    // system update
+sudo apt upgrade   // system upgrade
+
+# CHANGE SERVER HOSTNAME
+linuxadmin@ip-10-10-54-240:~$ sudo hostnamectl set-hostname Jenkins-Master
+linuxadmin@ip-10-10-54-240:~$ /bin/bash
+linuxadmin@Jenkins-Master:~$
+
+4) INSTALL JAVA RUNTIME Required for Jenkins:
+    1  java --version     // java not installed 
+    2  sudo apt install openjdk-17-jre
+    3  sudo apt upgrade
+    4  java --version     // java installed and java runtime versions
+
 4) INSTALL JENKINS => https://www.jenkins.io/doc/book/installing/linux/#debianubuntu
 jenkins --version         // 2.426.3
 which jenkins             // /usr/bin/jenkins
 
 5) CHECK JENKINS SERVICE:
-    systemctl status jenkins                // service must be running and also copy the OTP from log
+    systemctl status jenkins                // service must be running and also copy the OTP from log       //  c65d871f2af249ed8e7a6624beea8651
 6) CONFIGURE JENKINS MASTER.        // make sure port 8080 is open on server.
-7) Set DNS - A record in the AWS Route 53 pointing to a Subdomain => jenkins.master.devopstech24.click
+7) Set DNS - A record in the AWS Route 53 pointing to a Subdomain => jenkins.dev.devopstech24.click
    Check the propagation => https://www.whatsmydns.net
+
+---- > stop here  <-------
 8) Install nginx using mainline nginx packages
 => https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#installing-prebuilt-ubuntu-packages
 Go to section: Installing a Prebuilt Ubuntu Package from the Official NGINX Repository
@@ -39,9 +57,6 @@ Go to section: Installing a Prebuilt Ubuntu Package from the Official NGINX Repo
 9) Check the nginx service:
         systemctl status nginx          // inactive
         systemctl start nginx
-
-
-
 =========================================jenkins master================================================
 ubuntu@ip-10-10-62-53:~$ sudo -i
 root@ip-10-10-62-53:~# hostnamectl set-hostname Jenkins-Master
@@ -64,39 +79,47 @@ root@Jenkins-Master:~# which jenkins
 root@Jenkins-Master:~# jenkins --version
 root@Jenkins-Master:~# systemctl status jenkins  // service must be enabled and running and get the initial password
 
+---- > start again  <-------
 # check in browser http://13.211.104.166:8080/
 /var/lib/jenkins/secrets/initialAdminPassword
 
 # configure jenkins server and install default plugins.
 
 # setup DNS Server - route 53 A record
-jenkins-master.dev.devopstech24.click -> 13.211.104.166
+jenkins.dev.devopstech24.click -> 13.211.104.166
 
 # check dns propagation  - must be fully propagated  
 www.whatsmydns.net  // check A record
 
-
-
 # Install docker
-root@Jenkins-Master:~# apt update
-root@Jenkins-Master:~# curl https://get.docker.com/ | sh
-root@Jenkins-Master:~# which docker
-root@Jenkins-Master:~# docker --version
-root@Jenkins-Master:~# systemctl status docker              // service must be enabled and running
+linuxadmin@Jenkins-Master:~# docker --version
+linuxadmin@Jenkins-Master:~# sudo apt  install docker.io
+linuxadmin@Jenkins-Master:~# which docker
+linuxadmin@Jenkins-Master:~# docker --version
+linuxadmin@Jenkins-Master:~# systemctl status docker              // service must be enabled and running
 
 # Install docker-compose
-apt  install docker-compose
-root@Jenkins-Master:~# which docker-compose
-root@Jenkins-Master:~# docker-compose --version
+linuxadmin@Jenkins-Master:~# which docker-compose
+linuxadmin@Jenkins-Master:~# apt install docker-compose
+linuxadmin@Jenkins-Master:~# which docker-compose
+linuxadmin@Jenkins-Master:~# docker-compose --version
+
+# Make Sure linuxadmin must be part of docker group so it can run docker commands:
+sudo usermod -aG docker linuxadmin
+exit                // re-login
+su linuxadmin
+groups              // linuxadmin is part of three groups => linuxadmin sudo docker
 
 # install Nginx Proxy Manager => https://nginxproxymanager.com/setup/
-root@Jenkins-Master:~# touch docker-compose.yml
-root@Jenkins-Master:~# vim docker-compose.yml 
-root@Jenkins-Master:~# docker compose up -d
-root@Jenkins-Master:~# docker ps            // 2 containers must be up and running
+linuxadmin@Jenkins-Master:~# mkdir NginxProxyManager
+linuxadmin@Jenkins-Master:~# cd NginxProxyManager
+linuxadmin@Jenkins-Master:~# touch docker-compose.yml
+linuxadmin@Jenkins-Master:~# vim docker-compose.yml 
+linuxadmin@Jenkins-Master:~# docker compose up -d
+linuxadmin@Jenkins-Master:~# docker ps            // 2 containers must be up and running
 
 # configure Nginx Proxy Manager:
-http://13.211.104.166:81
+http://54.66.81.189:81/
 
 // Default Administrator User
 Email:    admin@example.com
@@ -159,7 +182,7 @@ root        5286    5094  0 16:09 pts/1    00:00:00 grep --color=auto jenkins
 # copy private key for jenkins authentication credentials. user: root and password: PRIVATE KEY
 
 # Create a pipeline and set the webhook:
-https://jenkins-master.dev.devopstech24.click/github-webhook/
+https://jenkins.dev.devopstech24.click/github-webhook/
 
 ======================================================= SONARQUBE SERVER =======================================================================
 # We are using sonarqube:lts-community in our Docker Compose .yml file
@@ -299,3 +322,52 @@ username: admin
 //
 kubectl create namespace argocd
 kubectl delete namespace argocd
+
+
+# Monitoring => https://github.com/brandonleegit/OpenSourceMonitoring/blob/main/README.md
+#### ========== FREE AND OPER SOURCE MONITORING OF LINUX SERVERS AND CONTAINERS ==========
+
+lsb_release -a                       // Ubuntu 22.04.3 LTS
+apt update
+docker --version                     // Docker version 25.0.2, build 29cf629
+docker-compose --version             // Docker Compose version v2.20.3
+adduser linuxadmin                   // create a user    (PASSWORD: pass1234)
+usermod -aG sudo linuxadmin          // add this user to sudo group
+su - linuxadmin                      // Testing sudo Access
+sudo apt update                      // it should work
+linuxadmin@Jenkins-Slave:~$ id -u    // check the id of the user. it must be 1001 because we will use it in our script
+linuxadmin@Jenkins-Slave:~$ docker ps
+# make sure linuxadmin can run the docker ps command. if not exit the user and log back in.
+linuxadmin@Jenkins-Slave:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+# script - # DO NOT WORRY ABOUT : command not found
+mkdir -p promgrafnode/prometheus && \ 
+mkdir -p promgrafnode/grafana/provisioning && \
+touch promgrafnode/docker-compose.yml && \
+touch promgrafnode/prometheus/prometheus.yml
+
+# 4 directories, 2 files
+$ tree
+.
+└── promgrafnode
+    ├── docker-compose.yml
+    ├── grafana
+    │   └── provisioning
+    └── prometheus
+        └── prometheus.yml
+
+4 directories, 2 files
+
+=====
+
+linuxadmin@Jenkins-Slave:~/promgrafnode$ ls
+docker-compose.yml  grafana  prometheus
+
+# Paste the configuration into the docker-compose.yml inside promgrafnode directory:
+# Then run the containers
+linuxadmin@Jenkins-Slave:~/promgrafnode$ docker compose up -d
+
+# 5 containers are working:  
+linuxadmin@Jenkins-Slave:~/promgrafnode$ docker ps
+
