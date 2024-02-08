@@ -22,7 +22,7 @@ pipeline {
         RELEASE = "1.0.0"
         IMAGE_TAG = "${RELEASE}" + "-" + "${env.BUILD_NUMBER}"
 
-        JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")            // make sure it must be correct
+        // JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")            // make sure it must be correct
 
     }
     stages {
