@@ -131,23 +131,23 @@ pipeline {
 //         //     }
 //         // }
 
-        // stage ('Docker Container Deeployment') {
-        //     steps {
-        //         script {
-        //             sh 'docker run ${IMAGE_NAME}:${IMAGE_TAG} -p 8089:8080'
-        //         }
-        //     }
-        // }
+        stage ('Docker Container Deeployment') {
+            steps {
+                script {
+                    sh 'docker run ${IMAGE_NAME}:${IMAGE_TAG} -p 8089:8080'
+                }
+            }
+        }
 
-//         stage('Cleanup Artifacts') {
-//             steps {
-//               script {
-//                 sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'  // Remove Current Tagged Image
-//                 sh 'docker rmi ${IMAGE_NAME}:latest'  // Remove latest Tagged Image
-//                 sh 'docker image prune --all --force' // Remove all dangling images without prompt for confirmation
-//               }
-//             }
-//         }
+        stage('Cleanup Artifacts') {
+            steps {
+              script {
+                sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'  // Remove Current Tagged Image
+                sh 'docker rmi ${IMAGE_NAME}:latest'  // Remove latest Tagged Image
+                sh 'docker image prune --all --force' // Remove all dangling images without prompt for confirmation
+              }
+            }
+        }
 
 //     } // end of stages section
 //     post {
