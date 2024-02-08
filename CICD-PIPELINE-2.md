@@ -221,7 +221,7 @@ Token: sqa_01504165a3af9a0ebf65db3b2f21ae7f96c6508f
 # docker credentials  to connect with docker hub
 
 # install following docker related plugins:
-DockerVersion
+Docker
 Docker Pipeline
 docker-build-step
 
