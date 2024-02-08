@@ -244,7 +244,7 @@ docker-build-step
 =======================================================  Account Token / trigger pipeline =====================================================
 
 # Create account token:
-Muhammad Jabir (Account) => Configure => API Token => JENKINS_API_TOKEN => 1163ab5aef147103ea675c81c298546f3a
+Muhammad Jabir (Account) => Configure => API Token => JENKINS_API_TOKEN => 119d2c4ac40b25cb57b33eb8021093fbae
 
 # Create Credentials:
 Manage Jenkins => Credentials => JENKINS_API_TOKEN   

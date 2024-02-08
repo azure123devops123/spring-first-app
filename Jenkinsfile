@@ -16,13 +16,13 @@ pipeline {
     environment {
         // SCANNER_HOME = tool 'SonarScanner'        // we define this tool and we can use it below.
         DOCKERHUB_USERNAME = "devopstech24"
-        APPLICATION_NAME = "spring-first-app-jenkins-ci-pipeline"
+        APPLICATION_NAME = "java-spring-app-ci-pipeline"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APPLICATION_NAME}"
 
         RELEASE = "1.0.0"
         IMAGE_TAG = "${RELEASE}" + "-" + "${env.BUILD_NUMBER}"
 
-        // JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")            // make sure it must be correct
+        JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")            // make sure it must be correct
 
     }
     stages {
@@ -123,21 +123,21 @@ pipeline {
             }
         }
 
-//         // stage ('Trigger Continuous Delivery Pipeline') {
-//         //     steps {
-//         //         script {
-//         //             sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'https://jenkins-master.dev.devopstech24.click/job/gitops-cd-pipeline/buildWithParameters?token=gitops-token'"
-//         //         }
-//         //     }
-//         // }
-
-        stage ('Docker Container Deeployment') {
+        stage ('Trigger Continuous Delivery Pipeline') {
             steps {
                 script {
-                    sh "docker run ${IMAGE_NAME}:${IMAGE_TAG} -p 8089:8080"
+                    sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'https://jenkins.dev.devopstech24.click/job/gitops-cd-pipeline/buildWithParameters?token=gitops-token'"
                 }
             }
         }
+
+        // stage ('Docker Container Deployment') {
+        //     steps {
+        //         script {
+        //             sh "docker run ${IMAGE_NAME}:${IMAGE_TAG} -p 8089:8080"
+        //         }
+        //     }
+        // }
 
         stage('Cleanup Artifacts') {
             steps {
