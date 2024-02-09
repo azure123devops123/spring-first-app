@@ -212,6 +212,13 @@ Token: sqa_01504165a3af9a0ebf65db3b2f21ae7f96c6508f
 
 # In System section set the sonarqube server. This server name we can pass on in our pipeline.
 
+# Quality gates - required webhook
+administration => Configuration => webhooks
+name: jenkins.dev.devopstech24.click
+url: https://jenkins.dev.devopstech24.click/sonarqube-webhook/
+
+After that just write the config inside Jenkinsfile
+
 ======================================================= OWASP (Open Worldwide Application Security Project)  =========================================================
 # install plugin: 'OWASP Dependency-Check'
 # Configure using option Install automatically by 'Install from github.com' and version '6.5.1' otherwise we will get error.
