@@ -263,7 +263,7 @@ Inside your Account go into => Settings & administrator => Manage apps => Search
 it will spit the details which you can use for credentials and into System section.
 like for example:
 Team subdomain: devopsleadworkspace
-Integration token credential ID: Create a secret text credential using 2XH4jnfrv4OYNRPYkxT62ST8 as the value.
+Integration token credential ID: Create a secret text credential using nr4mlAhPND1GPHIzXnshtwMB as the value.
 # Slack Credentials using Token.
 
 # Install Slack plugins called 'slack notification' in Jenkins
