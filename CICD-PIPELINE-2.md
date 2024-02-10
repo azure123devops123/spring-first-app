@@ -380,3 +380,24 @@ linuxadmin@Jenkins-Slave:~/promgrafnode$ docker compose up -d
 # 5 containers are working:  
 linuxadmin@Jenkins-Slave:~/promgrafnode$ docker ps
 
+=======
+
+docker stop prometheus
+docker start prometheus
+http://54.66.81.189:3000/login     // grafana is running - default username: admin  - password: admin
+
+note:- new password is pass1234
+
+https://grafana.dev.devopstech24.click/
+
+
+======
+https://www.youtube.com/watch?v=r_A5NKkAqZM
+
+https://uptimekuma.dev.devopstech24.click/
+
+https://nginxproxymanager.dev.devopstech24.click/
+
+
+https://hooks.slack.com/services/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
+
