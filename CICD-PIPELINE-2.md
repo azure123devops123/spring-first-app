@@ -390,6 +390,13 @@ note:- new password is pass1234
 
 https://grafana.dev.devopstech24.click/
 
+# COMMUNITY DASHBOARDS:
+
+"Node Exporter Full with Node Name"
+https://grafana.com/grafana/dashboards/10242-node-exporter-full/
+
+"Docker Container"
+https://grafana.com/grafana/dashboards/11600-docker-container/
 
 ======
 https://www.youtube.com/watch?v=r_A5NKkAqZM
@@ -400,4 +407,16 @@ https://nginxproxymanager.dev.devopstech24.click/
 
 
 https://hooks.slack.com/services/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
+
+
+# uptime kuma docker container monitoring - we have to allow remote monitoring first
+linuxadmin@Jenkins-Master:~$ cd /etc/docker/
+
+linuxadmin@Jenkins-Master:/etc/docker$ sudo touch daemon.json
+[sudo] password for linuxadmin: 
+
+linuxadmin@Jenkins-Master:/etc/docker$ ls
+daemon.json
+
+{"hosts": ["tcp://0.0.0.0:2375", "unix:///var/run/docker.sock"]}
 
