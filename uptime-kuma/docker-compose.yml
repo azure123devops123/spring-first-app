@@ -6,6 +6,8 @@ services:
     container_name: uptime-kuma
     volumes:
       - ./data:/app/data
+      # sock is basically the Unix socket the Docker daemon listens on by default. It is also a tool used to communicate with the Docker daemon from within a container. Sometimes, containers need to bind mount When you use a bind mount, a file or directory on the host machine is mounted into a container.
+      # - /var/run/docker.sock:/var/run/docker.sock
     ports:
       # <Host Port>:<Container Port>
       - 3001:3001

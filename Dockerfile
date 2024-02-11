@@ -39,5 +39,6 @@ COPY --link --from=build /app/source/target/*.jar /app/app.jar
 EXPOSE 8080
 
 # Run the run a Java application using JAR file.
-ENTRYPOINT [ "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar" ]
+ENTRYPOINT [ "java", "-jar", "/app/app.jar" ]
+#ENTRYPOINT [ "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar" ]
 # CMD ["java", "-jar","/app/app.jar"]

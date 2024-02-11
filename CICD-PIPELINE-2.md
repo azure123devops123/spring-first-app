@@ -400,6 +400,7 @@ https://grafana.com/grafana/dashboards/11600-docker-container/
 
 ======
 https://www.youtube.com/watch?v=r_A5NKkAqZM
+https://www.youtube.com/watch?v=py68mv_vyi8
 
 https://uptimekuma.dev.devopstech24.click/
 
@@ -410,6 +411,7 @@ https://hooks.slack.com/services/T06GP7U01JT/B06HR0QHU3H/4wLYyPZUzBExix9hyHqZTfm
 
 
 # uptime kuma docker container monitoring - we have to allow remote monitoring first
+# uptime kuma should be running in docker environment to monitor containers because stand alone doesn't support.
 linuxadmin@Jenkins-Master:~$ cd /etc/docker/
 
 linuxadmin@Jenkins-Master:/etc/docker$ sudo touch daemon.json
@@ -420,3 +422,40 @@ daemon.json
 
 {"hosts": ["tcp://0.0.0.0:2375", "unix:///var/run/docker.sock"]}
 
+
+
+# docker community edition portainer => https://earthly.dev/blog/portainer-for-docker-container-management/
+
+# docker run command 
+$ docker run -d \
+  -p 9443:9443 \
+  --name portainer \
+  --restart unless-stopped \
+  -v data:/data \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  portainer/portainer-ce:latest
+
+# docker compose 
+
+version: '3.8'
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    ports:
+      - 9443:9443
+    volumes:
+      - data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+volumes:
+  data:
+
+# try https =>  https://54.66.81.189:9443/  
+
+# Subdomain: https://portainer.dev.devopstech24.click
+
+# USERNAME: admin   ----  PASSWORD: pass12341234
+
+# add additional volume so uptime kuma can communicate with the docker server.
+
+# 
