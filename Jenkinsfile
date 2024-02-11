@@ -123,21 +123,21 @@ pipeline {
             }
         }
 
-        stage ('Trigger Continuous Delivery Pipeline') {
-            steps {
-                script {
-                    sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'https://jenkins.dev.devopstech24.click/job/gitops-cd-pipeline/buildWithParameters?token=gitops-token'"
-                }
-            }
-        }
-
-        // stage ('Docker Container Deployment') {
+        // stage ('Trigger Continuous Delivery Pipeline') {
         //     steps {
         //         script {
-        //             sh "docker run ${IMAGE_NAME}:${IMAGE_TAG} -p 8089:8080"
+        //             sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'https://jenkins.dev.devopstech24.click/job/gitops-cd-pipeline/buildWithParameters?token=gitops-token'"
         //         }
         //     }
         // }
+
+        stage ('Docker Container Deployment') {
+            steps {
+                script {
+                    sh "docker run -p 8085:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
+                }
+            }
+        }
 
         stage('Cleanup Artifacts') {
             steps {
