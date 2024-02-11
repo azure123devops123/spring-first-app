@@ -134,20 +134,20 @@ pipeline {
         stage ('Docker Container Deployment') {
             steps {
                 script {
-                    sh "docker run -p 8085:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker run -d -p 8085:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
                 }
             }
         }
 
-        stage('Cleanup Artifacts') {
-            steps {
-              script {
-                sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'    // Remove Current Tagged Image
-                sh 'docker rmi ${IMAGE_NAME}:latest'          // Remove latest Tagged Image
-                sh 'docker image prune --all --force'         // Remove all dangling images without prompt for confirmation
-              }
-            }
-        }
+        // stage('Cleanup Artifacts') {
+        //     steps {
+        //       script {
+        //         sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'    // Remove Current Tagged Image
+        //         sh 'docker rmi ${IMAGE_NAME}:latest'          // Remove latest Tagged Image
+        //         sh 'docker image prune --all --force'         // Remove all dangling images without prompt for confirmation
+        //       }
+        //     }
+        // }
 
     } // end of stages section
     post {
