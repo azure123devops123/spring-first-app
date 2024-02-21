@@ -103,7 +103,7 @@ linux/amd64
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
-                        sh 'docker push --platform linux/amd64,linux/arm64 -t ${IMAGE_NAME}:${IMAGE_TAG}'
+                        sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG} --platform linux/amd64,linux/arm64'
                     //    dockerImage.push()
                     //    dockerImage.push('latest')
                     }
