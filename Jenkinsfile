@@ -93,7 +93,7 @@ pipeline {
 
         stage ('Analyze Image using Trivy Image Scanner') {
             steps {
-                // Install Trivy using Install Script - > https://aquasecurity.github.io/trivy/v0.18.3/installation/#install-script
+                // Install Trivy using Install Script: - > https://aquasecurity.github.io/trivy/v0.18.3/installation/#install-script
                 sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.18.3'
                 sh 'trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy-report.xml'
             }
