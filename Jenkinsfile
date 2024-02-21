@@ -88,7 +88,7 @@ pipeline {
                        sh 'sudo apt install docker-buildx'
                        sh 'docker buildx create --name mybuilder'
                        sh 'docker buildx use mybuilder'
-                       dockerImage = sh 'docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t ${IMAGE_NAME}:${IMAGE_TAG} --push .'
+                       dockerImage = sh 'docker buildx build --platform linux/amd64,linux/arm64 -t ${IMAGE_NAME}:${IMAGE_TAG} --push .'
                     }
                 }
             }
