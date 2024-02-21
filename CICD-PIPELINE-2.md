@@ -458,4 +458,27 @@ volumes:
 
 # add additional volume so uptime kuma can communicate with the docker server.
 
-# 
+# ================ GRAFANA ALERTING ==================
+
+https://nagasudhir.blogspot.com/2024/01/create-alerts-in-grafana.html
+https://www.youtube.com/watch?v=yWzxbG3YDcM
+https://www.youtube.com/watch?v=nW5AuEtSqVc&t=1s
+
+
+webhook:  https://hooks.slack.com/services/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
+
+# ===================================== ARGO CD ====================================
+
+kubectl get pods -n argocd -w
+kubectl get svc
+kubectl get svc -n argocd
+kubectl edit service argocd-server -n argocd          // changes ClusterIP to NodePort
+minikube service list -n argocd
+minikube service argocd-server -n argocd        // Starting tunnel for service argocd-server - leave this terminal running 
+
+http://127.0.0.1:31706
+http://127.0.0.1:31874
+
+kubectl get secret -n argocd                                           // argocd-initial-admin-secret
+kubectl edit secret argocd-initial-admin-secret -n argocd -o=yaml      // WE1BUWpDc3o1bHBxSXhhSQ==
+echo WE1BUWpDc3o1bHBxSXhhSQ== | base64 --decode                        //  XMAQjCsz5lpqIxaI%                                
