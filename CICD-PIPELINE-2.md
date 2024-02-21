@@ -482,3 +482,20 @@ http://127.0.0.1:31874
 kubectl get secret -n argocd                                           // argocd-initial-admin-secret
 kubectl edit secret argocd-initial-admin-secret -n argocd -o=yaml      // WE1BUWpDc3o1bHBxSXhhSQ==
 echo WE1BUWpDc3o1bHBxSXhhSQ== | base64 --decode                        //  XMAQjCsz5lpqIxaI%                                
+
+# External Access
+kubectl get service 
+minikube service java-spring-app-service --url          // get url fort external access
+
+# Docker Buildx
+sudo apt install docker-buildx      // installation
+docker buildx ls
+          NAME/NODE DRIVER/ENDPOINT STATUS  BUILDKIT             PLATFORMS
+          default * docker                                       
+            default default         running v0.11.6+0a15675913b7 linux/amd64, linux/amd64/v2, linux/amd64/v3, linux/386
+
+docker buildx create --name mybuilder
+docker buildx use mybuilder
+docker buildx inspect --bootstrap
+
+# 
