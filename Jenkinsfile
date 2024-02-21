@@ -84,7 +84,8 @@ pipeline {
             steps {
                 script {                // Groovy Script for Building Docker Image
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
-                       dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                       // dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                       dockerImage = sh 'docker build --platform linux/amd64 -t ${IMAGE_NAME}:${IMAGE_TAG} .'
                     }
                 }
             }
