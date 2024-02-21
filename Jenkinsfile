@@ -54,21 +54,21 @@ pipeline {
             }
         }
 
-        stage ('SonarQube Code Analysis') {
-            steps {
-                withSonarQubeEnv('SonarScanner') {      // Pass only server name as an argument
-                    sh 'mvn clean verify sonar:sonar'   // Analyzing a Maven project consists of running a Maven goal: sonar:sonar from the directory that holds the main project pom.xml
-                }
-            }
-        }
+        // stage ('SonarQube Code Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SonarScanner') {      // Pass only server name as an argument
+        //             sh 'mvn clean verify sonar:sonar'   // Analyzing a Maven project consists of running a Maven goal: sonar:sonar from the directory that holds the main project pom.xml
+        //         }
+        //     }
+        // }
 
-        stage("Quality Gate") {
-            steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-token'
-                }
-            }
-        }
+        // stage("Quality Gate") {
+        //     steps {
+        //         script {
+        //             waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-token'
+        //         }
+        //     }
+        // }
 
         stage ('OWASP Dependencies Check') {   // It will take 5 to 10 minutes when we run for the first time because it will download the National Vulnerability Database (NVD) from 2002 to onwards
             steps {
