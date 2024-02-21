@@ -80,19 +80,15 @@ pipeline {
             }
         }
 
-        stage ('Build Docker Image') {
+        stage ('Buildx Docker Image & Push to Docker Image Registry') {
             steps {
                 script {                // Groovy Script for Building Docker Image
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
                        // dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
-                       sh 'sudo apt install docker-buildx'
-                    //    sh 'docker buildx create --name mybuilder'
+                       sh 'sudo apt install docker-buildx'  // buildx installation => https://ruanbekker.medium.com/how-to-create-arm-based-container-images-with-buildx-fe917d186824
                        sh 'docker buildx create --name multi-arch --platform linux/arm64,linux/amd64 --driver docker-container'
-                    //    sh 'docker buildx use mybuilder'
                        sh 'docker buildx use multi-arch'
-                       // sh 'docker buildx build --platform linux/amd64,linux/arm64 -t ${IMAGE_NAME}:${IMAGE_TAG} --push .'
                        sh 'docker buildx build --platform linux/amd64,linux/arm64 --tag ${IMAGE_NAME}:${IMAGE_TAG} --push .'
-                       // sh' docker buildx create --name multi-arch --platform "linux/arm64,linux/amd64,linux/arm/v7" --driver "docker-container"
                     }
                 }
             }

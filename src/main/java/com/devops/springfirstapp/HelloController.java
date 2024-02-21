@@ -7,6 +7,6 @@ public class HelloController
 @RequestMapping("/hello")  
 public String hello()   
 {  
-return "Greetings from Spring Boot Successful - Excellent JOB VERSION 2";
+return "Greetings from Spring Boot Successful - Excellent JOB VERSION 3";
 }
 }
