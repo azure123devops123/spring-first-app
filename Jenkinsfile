@@ -86,9 +86,13 @@ pipeline {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
                        // dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                        sh 'sudo apt install docker-buildx'
-                       sh 'docker buildx create --name mybuilder'
-                       sh 'docker buildx use mybuilder'
-                       dockerImage = sh 'docker buildx build --platform linux/amd64,linux/arm64 -t ${IMAGE_NAME}:${IMAGE_TAG} --push .'
+                    //    sh 'docker buildx create --name mybuilder'
+                       sh 'docker buildx create --name multi-arch --platform "linux/arm64,linux/amd64,linux/arm/v7" --driver "docker-container"'
+                    //    sh 'docker buildx use mybuilder'
+                       sh 'docker buildx use multi-arch'
+                       // sh 'docker buildx build --platform linux/amd64,linux/arm64 -t ${IMAGE_NAME}:${IMAGE_TAG} --push .'
+                       sh 'docker buildx build --platform "linux/amd64,linux/arm64,linux/arm/v7" --tag ruanbekker/curl:test --push .'
+                       // sh' docker buildx create --name multi-arch --platform "linux/arm64,linux/amd64,linux/arm/v7" --driver "docker-container"
                     }
                 }
             }
