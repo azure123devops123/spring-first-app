@@ -85,7 +85,7 @@ pipeline {
                 script {                // Groovy Script for Building Docker Image
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
                        // dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
-                       dockerImage = sh 'docker buildx build --platform linux/arm64 -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+                       dockerImage = sh 'docker buildx build --platform linux/amd64,linux/arm64 -t ${IMAGE_NAME}:${IMAGE_TAG} .'
                     }
                 }
             }
@@ -98,12 +98,12 @@ pipeline {
                 sh 'trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy-report.xml'
             }
         }
-linux/amd64
+
         stage ('Push to Docker Image Registry') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
-                        sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG} --platform linux/arm64'
+                        sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG} --platform linux/amd64,linux/arm64'
                     //    dockerImage.push()
                     //    dockerImage.push('latest')
                     }
