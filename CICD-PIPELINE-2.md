@@ -481,7 +481,7 @@ http://127.0.0.1:31874
 
 kubectl get secret -n argocd                                           // argocd-initial-admin-secret
 kubectl edit secret argocd-initial-admin-secret -n argocd -o=yaml      // WE1BUWpDc3o1bHBxSXhhSQ==
-echo WE1BUWpDc3o1bHBxSXhhSQ== | base64 --decode                        //  XMAQjCsz5lpqIxaI%                                
+echo WE1BUWpDc3o1bHBxSXhhSQ== | base64 --decode                      // XMAQjCsz5lpqIxaI%                                
 
 # External Access
 kubectl get service 
@@ -498,4 +498,8 @@ docker buildx create --name mybuilder
 docker buildx use mybuilder
 docker buildx inspect --bootstrap
 
-# 
+# Minikube
+minikube start --driver docker
+kubectl get nodes
+kubectl get nodes -o wide
+minikube ip               // 192.168.49.2
