@@ -86,11 +86,11 @@ pipeline {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker24') {
                        // dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                        sh 'sudo apt install docker-buildx'  // buildx installation => https://ruanbekker.medium.com/how-to-create-arm-based-container-images-with-buildx-fe917d186824
-                       // sh 'docker buildx create --name multi-arch --platform linux/arm64,linux/amd64 --driver docker-container'
-                       sh 'docker buildx create --name multi-arch --platform linux/arm64 --driver docker-container'
+                       sh 'docker buildx create --name multi-arch --platform linux/arm64,linux/amd64 --driver docker-container'
+                       //sh 'docker buildx create --name multi-arch --platform linux/arm64 --driver docker-container'
                        sh 'docker buildx use multi-arch'
-                       //sh 'docker buildx build --platform linux/amd64,linux/arm64 --tag ${IMAGE_NAME}:${IMAGE_TAG} --push .'
-                       sh 'docker buildx build --platform linux/arm64 --tag ${IMAGE_NAME}:${IMAGE_TAG} --push .'
+                       sh 'docker buildx build --platform linux/amd64,linux/arm64 --tag ${IMAGE_NAME}:${IMAGE_TAG} --push .'
+                       //sh 'docker buildx build --platform linux/arm64 --tag ${IMAGE_NAME}:${IMAGE_TAG} --push .'
                     }
                 }
             }
