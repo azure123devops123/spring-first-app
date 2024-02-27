@@ -503,3 +503,29 @@ minikube start --driver docker
 kubectl get nodes
 kubectl get nodes -o wide
 minikube ip               // 192.168.49.2
+
+# RESPONSE ONLY INSIDE CLUSTER 
+minikube ssh
+kubectl get pods -o wide        // get an ip address of a running any running pod and use below in the curl
+curl -L http://10.244.0.49:8080/hello           // TRAFFIC  using Pod IP
+curl -L http://10.244.0.49:8080/hello           // TRAFFIC  using Pod IP
+curl -L http://10.244.0.49:8080/hello           // TRAFFIC  using Pod IP
+logout      // logout 
+
+# NO RESPONSE OUTSIDE THE CLUSTER - try after above exit - YOU WILL SEE NO TRAFFIC
+curl -L http://10.244.0.49:8080/hello         // NO TRAFFIC 
+
+# RESPONSE USING CLUSTER IP OF SERVICE -  SO WE NEED NodePort
+kubectl get service -v=7    // to see verbose first 7 lines 
+kubectl get services -o wide        // copy theCLUSTER IP OF SERVICE 10.101.174.151
+minikube ssh
+curl -L http://10.108.137.66:80/hello          // TRAFFIC using CLUSTER IP OF SERVICE
+
+# RESPONSE USING MINIKUBE IP OR EC2 IP - HERE NO NEED minikube ssh
+minikube ip         // get the minikube ip address or ec2 instance ip if you are using ec2: 192.168.49.2
+curl -L http://192.168.49.2:30040/hello
+
+curl http://devopstech24.click/hello
+
+
+
