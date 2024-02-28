@@ -9,7 +9,7 @@ public class HelloController   {
     @RequestMapping("/hello")  
     public String hello() throws UnknownHostException   {  
     var hostname = InetAddress.getLocalHost().getHostAddress();
-    return "JAVA SPRING BOOT APPLICATION RESPONSE FROM HOST => " + hostname;
+    return "JAVA SPRING BOOT APPLICATION COMPLETE END TO END PIPELINE - RESPONSE COMING FROM POD IP ADDRESS: " + hostname;
     // var hostname = InetAddress.getLocalHost().getHostName();
     // System.out.println(hostname);
     }
